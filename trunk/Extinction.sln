@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Extinction", "Extinction\Extinction\Extinction.csproj", "{D371652D-A038-4149-B7C6-94F6BBF69A39}"
 EndProject
-Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "ExtinctionContent", "Extinction\ExtinctionContent\ExtinctionContent.contentproj", "{4A0C2FC5-D7FD-4A04-806F-34271D581261}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtinctionContent", "Extinction\ExtinctionContent\ExtinctionContent.contentproj", "{4A0C2FC5-D7FD-4A04-806F-34271D581261}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
