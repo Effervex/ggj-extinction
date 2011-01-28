@@ -8,6 +8,8 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using ZuneGameState;
+using Extinction.Screens;
 
 namespace Extinction
 {
@@ -16,12 +18,21 @@ namespace Extinction
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        ScreenManager screenManager;
 
         public ExtinctionGame()
         {
             instance = this;
 
             graphics = new GraphicsDeviceManager(this);
+
+            screenManager = new ScreenManager(this);
+
+            this.Components.Add(screenManager);
+
+            screenManager.AddScreen(new InGameScreen());
+            screenManager.AddScreen(new TitleScreen());
+            
             Content.RootDirectory = "Content";
         }
 
@@ -51,8 +62,7 @@ namespace Extinction
         protected override void Update(GameTime gameTime)
         {
             UpdateMedia();
-            UpdateInput();
-
+            screenManager.Update(gameTime);
             base.Update(gameTime);
         }
 
@@ -61,6 +71,7 @@ namespace Extinction
 
         protected override void Draw(GameTime gameTime)
         {
+            /*
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             cameraPosition = new Vector3(15,15,15);
@@ -71,6 +82,8 @@ namespace Extinction
             // TODO: Add your drawing code here
             test.Draw(Matrix.Identity, view, projection);
             base.Draw(gameTime);
+             */
+            screenManager.Draw(gameTime);
         }
     }
 }
