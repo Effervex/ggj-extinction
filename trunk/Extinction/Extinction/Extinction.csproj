@@ -109,6 +109,9 @@
   <ItemGroup>
     <Compile Include="Input.cs" />
     <Compile Include="Media.cs" />
+    <Compile Include="Objects\Entity.cs" />
+    <Compile Include="Objects\Grass.cs" />
+    <Compile Include="Objects\Island.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
