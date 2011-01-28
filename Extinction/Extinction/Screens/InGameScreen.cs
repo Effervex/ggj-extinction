@@ -30,6 +30,7 @@ namespace Extinction.Screens
         Dome dome;
         Island island;
         Grass grass;
+        Sphere sphere;
 
         Texture2D selectedIcon;
 
@@ -46,6 +47,7 @@ namespace Extinction.Screens
             dome = new Dome();
             island = new Island();
             grass = new Grass();
+            sphere = new Sphere();
 
             tools = new List<ToolIcon>();
             tools.Add(new MagnifyingGlass());
@@ -75,6 +77,7 @@ namespace Extinction.Screens
             dome.Create(@"dome/dome_mesh");
             island.Create(@"island/island_mesh");
             grass.Create(@"foliage/grass_mesh");
+            sphere.Create(@"sphere0-5");
 
             selectedIcon = content.Load<Texture2D>("SelectedIcon");
 
@@ -85,11 +88,6 @@ namespace Extinction.Screens
             {
                 tool.LoadContent(content);
             }
-
-            // A real game would probably have more content than this sample, so
-            // it would take longer to load. We simulate that by delaying for a
-            // while, giving you a chance to admire the beautiful loading screen.
-            Thread.Sleep(1000);
 
             // once the load has finished, we use ResetElapsedTime to tell the game's
             // timing mechanism that we have just finished a very long frame, and that
@@ -195,8 +193,9 @@ namespace Extinction.Screens
                 // TODO: Add your drawing code here
                 dome.Draw();
                 island.Draw();
-                grass.Draw();
-
+                sphere.Draw();
+grass.Draw();
+                
 
                 int y = EDGE_ICON_BUFFER;
                 ScreenManager.SpriteBatch.Begin();
