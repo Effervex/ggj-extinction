@@ -1,2 +1,0 @@
-C:\Users\Dacre\ggj-extinction\Extinction\ExtinctionContent\obj\x86\Debug\ResolveAssemblyReference.cache
-C:\Users\Admin\Desktop\OneTreeHill\Extinction\ExtinctionContent\obj\x86\Debug\ResolveAssemblyReference.cache
