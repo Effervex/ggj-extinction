@@ -6,7 +6,7 @@ using Extinction;
 using Extinction.Objects;
 using Microsoft.Xna.Framework;
 
-namespace Extinction.Screens
+namespace Extinction
 {
     class GameState
     {
