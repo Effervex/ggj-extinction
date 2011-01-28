@@ -39,6 +39,19 @@ namespace Extinction.Screens
 
         GameState gameState;
 
+        public void Initialise()
+        {
+            dome = new Dome();
+            island = new Island();
+            grass = new Grass();
+
+            tools = new List<ToolIcon>();
+            tools.Add(new MagnifyingGlass());
+            tools.Add(new MagnifyingGlass());
+
+            gameState = new GameState();
+
+        }
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -46,21 +59,7 @@ namespace Extinction.Screens
         {
             TransitionOnTime = TimeSpan.FromSeconds(1.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
-
             Initialise();
-        }
-
-        public void Initialise()
-        {
-            tools = new List<ToolIcon>();
-            tools.Add(new MagnifyingGlass());
-            tools.Add(new MagnifyingGlass());
-
-            island = new Island();
-            grass = new Grass();
-            dome = new Dome();
-
-            gameState = new GameState();
         }
 
         /// <summary>
@@ -78,7 +77,8 @@ namespace Extinction.Screens
             selectedIcon = content.Load<Texture2D>("SelectedIcon");
 
             cursor = content.Load<Texture2D>("Cursor");
-            Initialise();
+
+            
             foreach (ToolIcon tool in tools)
             {
                 tool.LoadContent(content);
@@ -171,36 +171,8 @@ namespace Extinction.Screens
             // TODO: Add your drawing code here
             dome.Draw();
             island.Draw();
-            //grass.Draw();
+            grass.Draw();
 
-            if (ScreenManager.GraphicsDevice.Textures[0] == null)
-            {
-
-                //   ScreenManager.GraphicsDevice.Textures[0] = content.Load<Texture2D>("blank");
-            }
-            //ExtinctionGame.DrawModel(modelIsland, Matrix.Identity, view, projection);
-            // if(false)
-            //try
-            //{
-            //    RasterizerState stater = new RasterizerState();
-            //    BlendState stateb = new BlendState();
-            //    DepthStencilState stated = new DepthStencilState();
-            //    stated.DepthBufferWriteEnable = false;
-            //    stateb.AlphaBlendFunction = BlendFunction.Add;
-            //    stater.CullMode = CullMode.None; 
-
-
-            //    ScreenManager.GraphicsDevice.BlendState = BlendState.AlphaBlend;
-            //    ScreenManager.GraphicsDevice.DepthStencilState = stated;
-            //    ScreenManager.GraphicsDevice.RasterizerState = stater;
-            //    ModelDataSet data = (ModelDataSet)modelGrass.Tag;
-            //    data.shader.Parameters["Time"].SetValue((float)gameTime.TotalGameTime.TotalMilliseconds / 1000f);
-            //    ExtinctionGame.DrawModel(modelGrass, Matrix.Identity);
-            //}
-            //catch (Exception e)
-            //{
-
-            //}
 
             int y = EDGE_ICON_BUFFER;
             ScreenManager.SpriteBatch.Begin();

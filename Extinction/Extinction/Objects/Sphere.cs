@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 
 namespace Extinction.Objects
 {
-    public class Grass : Entity
+    public class Sphere : Entity
     {
         public override void Draw()
         {
@@ -17,7 +17,8 @@ namespace Extinction.Objects
             RasterizerState stater = new RasterizerState();
             BlendState stateb = new BlendState();
             DepthStencilState stated = new DepthStencilState();
-            stated.DepthBufferWriteEnable = false;
+            //stated.DepthBufferWriteEnable = false;
+            //stated.DepthBufferEnable = false;
             stateb.AlphaBlendFunction = BlendFunction.Add;
             stater.CullMode = CullMode.None;
 
@@ -32,11 +33,11 @@ namespace Extinction.Objects
 
             /* Restore settings */
             DepthStencilState statend = new DepthStencilState();
-            statend.DepthBufferWriteEnable = true;
+            //statend.DepthBufferEnable = true;
             ExtinctionGame.instance.GraphicsDevice.DepthStencilState = statend;
             ExtinctionGame.instance.GraphicsDevice.BlendState = BlendState.Opaque;
             RasterizerState statenr = new RasterizerState();
-            statenr.CullMode = CullMode.CullClockwiseFace;
+            statenr.CullMode = CullMode.None;
             ExtinctionGame.instance.GraphicsDevice.RasterizerState = statenr;
 
         }
