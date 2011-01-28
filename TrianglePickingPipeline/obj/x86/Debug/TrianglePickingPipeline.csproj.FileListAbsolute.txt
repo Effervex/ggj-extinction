@@ -3,3 +3,8 @@ C:\Users\Admin\Desktop\OneTreeHill\TrianglePickingPipeline\bin\x86\Debug\Triangl
 C:\Users\Admin\Desktop\OneTreeHill\TrianglePickingPipeline\obj\x86\Debug\ResolveAssemblyReference.cache
 C:\Users\Admin\Desktop\OneTreeHill\TrianglePickingPipeline\obj\x86\Debug\TrianglePickingPipeline.dll
 C:\Users\Admin\Desktop\OneTreeHill\TrianglePickingPipeline\obj\x86\Debug\TrianglePickingPipeline.pdb
+C:\Users\Dacre\ggj-extinction\TrianglePickingPipeline\bin\x86\Debug\TrianglePickingPipeline.dll
+C:\Users\Dacre\ggj-extinction\TrianglePickingPipeline\bin\x86\Debug\TrianglePickingPipeline.pdb
+C:\Users\Dacre\ggj-extinction\TrianglePickingPipeline\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\Dacre\ggj-extinction\TrianglePickingPipeline\obj\x86\Debug\TrianglePickingPipeline.dll
+C:\Users\Dacre\ggj-extinction\TrianglePickingPipeline\obj\x86\Debug\TrianglePickingPipeline.pdb
