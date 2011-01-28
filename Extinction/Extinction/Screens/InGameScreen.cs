@@ -174,8 +174,6 @@ namespace Extinction.Screens
                                                Color.CornflowerBlue, 0, 0);
 
             cameraPosition = new Vector3(5, 5, 5) * 1.3f;
-
-            cameraPosition = new Vector3(5, 5, 5) * 2.3f;
             cameraPosition = Vector3.Transform(cameraPosition, Matrix.CreateRotationY(rotation));
 
             ExtinctionGame.view = Matrix.CreateLookAt(cameraPosition, Vector3.Zero + Vector3.Up * 5f, Vector3.Up);
