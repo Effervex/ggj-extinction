@@ -14,7 +14,7 @@ struct VertexShaderOutput
 {
     float4 Position : POSITION0;
 	float2 UV : TEXCOORD0;
-	float3 Normal : TEXCOORD1;
+	float3 Normal : TEXCOORD1; 
     // TODO: add vertex shader outputs such as colors and texture
     // coordinates here. These values will automatically be interpolated
     // over the triangle, and provided as input to your pixel shader.
@@ -24,9 +24,11 @@ VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
 {
     VertexShaderOutput output;
 
+	float4 oworld = mul(input.Position, World);
+
 	float phase = Time + World._41 + World._43 + (input.Position.x + input.Position.z) * 0.1f;
 	float radius = 0.5f;
-	float2 xz = clamp(input.Position.y + 0.5, 0, radius) * float2(cos(phase), sin(phase));
+	float2 xz = clamp(input.Position.y - 0.5, 0, radius) * float2(cos(phase), sin(phase));
 	input.Position.xz += xz;
 
     float4 worldPosition = mul(input.Position, World);
@@ -34,6 +36,7 @@ VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
     output.Position = mul(viewPosition, Projection);
 	output.UV = input.UV;
 	output.Normal = input.Normal;
+	output.UV.x += ((World._41 + World._43) % 4.0f) / 4.0f;
 	
     // TODO: add your vertex shader code here.
 
