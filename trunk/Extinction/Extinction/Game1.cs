@@ -14,11 +14,11 @@ using Extinction.Screens;
 namespace Extinction
 {
 
-    public partial class ExtinctionGame : Microsoft.Xna.Framework.Game
+    public partial class ExtinctionGame : Game
     {
         GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
         ScreenManager screenManager;
+        GameTime _gametime;
 
         public ExtinctionGame()
         {
@@ -36,24 +36,20 @@ namespace Extinction
             Content.RootDirectory = "Content";
         }
 
-        protected override void Initialize()
-        {
-            base.Initialize();
-        }
-
-        protected override void LoadContent()
-        {
-            base.LoadContent();
-        }
-
         protected override void Update(GameTime gameTime)
         {
+            _gametime = gameTime;
             screenManager.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
             screenManager.Draw(gameTime);
+        }
+
+        public GameTime getGameTime()
+        {
+            return _gametime;
         }
     }
 }

@@ -125,6 +125,10 @@
     <Content Include="GameThumbnail.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\TrianglePickingPipeline\TrianglePickingPipeline.csproj">
+      <Project>{35D4955B-8D3A-492A-B76B-2306A50C44F8}</Project>
+      <Name>TrianglePickingPipeline</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ExtinctionContent\ExtinctionContent.contentproj">
       <Name>ExtinctionContent</Name>
       <XnaReferenceType>Content</XnaReferenceType>

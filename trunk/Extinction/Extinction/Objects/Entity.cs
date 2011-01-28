@@ -9,8 +9,8 @@ namespace Extinction.Objects
 {
     public class Entity
     {
-        Model model;
-        public Matrix world;
+        protected Model model;
+        public Matrix world = Matrix.Identity;
 
         public bool Create(string filename)
         {
@@ -18,7 +18,7 @@ namespace Extinction.Objects
             return (model != null);
         }
 
-        public void Draw()
+        virtual public void Draw()
         {
             if(model!=null)
             ExtinctionGame.DrawModel(model, world);
