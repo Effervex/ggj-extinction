@@ -15,6 +15,12 @@ namespace Extinction.Screens
     {
         ContentManager content;
 
+        Matrix view, projection;
+        Vector3 cameraPosition;
+
+        Model modelIsland;
+        Model modelGrass;
+
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -41,6 +47,17 @@ namespace Extinction.Screens
             // timing mechanism that we have just finished a very long frame, and that
             // it should not try to catch up.
             ScreenManager.Game.ResetElapsedTime();
+
+            modelIsland = ExtinctionGame.LoadModel(@"island/island_mesh");
+            modelGrass = ExtinctionGame.LoadModel(@"foliage/grass_mesh");
+        }
+
+        public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
+        {
+            if (ExtinctionGame.IsKeyPressed(Keys.Q))
+                modelIsland = ExtinctionGame.LoadModel(@"island_mesh");
+
+            base.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
         }
 
         /// <summary>
@@ -59,6 +76,44 @@ namespace Extinction.Screens
             // This game has a blue background. Why? Because!
             ScreenManager.GraphicsDevice.Clear(ClearOptions.Target,
                                                Color.CornflowerBlue, 0, 0);
+             
+           cameraPosition = new Vector3(15,15,15) * .3f;
+
+
+           view = Matrix.CreateLookAt(cameraPosition, Vector3.Zero, Vector3.Up);
+           projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(70f),
+               (float)ScreenManager.GraphicsDevice.Viewport.Width / (float)ScreenManager.GraphicsDevice.Viewport.Height, 1f, 100f);
+          //  ScreenManager.GraphicsDevice.Textures[0]
+           // TODO: Add your drawing code here
+           if (ScreenManager.GraphicsDevice.Textures[0] == null)
+           {
+            //   ScreenManager.GraphicsDevice.Textures[0] = content.Load<Texture2D>("blank");
+           }
+           //ExtinctionGame.DrawModel(modelIsland, Matrix.Identity, view, projection);
+
+           try
+           {
+               RasterizerState stater = new RasterizerState();
+               BlendState stateb = new BlendState();
+               DepthStencilState stated = new DepthStencilState();
+               stated.DepthBufferWriteEnable = false;
+               stateb.AlphaBlendFunction = BlendFunction.Add;
+               stater.CullMode = CullMode.None; 
+
+
+               ScreenManager.GraphicsDevice.BlendState = BlendState.AlphaBlend;
+               ScreenManager.GraphicsDevice.DepthStencilState = stated;
+               ScreenManager.GraphicsDevice.RasterizerState = stater;
+               ModelDataSet data = (ModelDataSet)modelGrass.Tag;
+               data.shader.Parameters["Time"].SetValue((float)gameTime.TotalGameTime.TotalMilliseconds / 1000f);
+               ExtinctionGame.DrawModel(modelGrass, Matrix.Identity, view, projection);
+           }
+           catch (Exception e)
+           {
+
+           }
+           base.Draw(gameTime);
+            
 
         }
 
