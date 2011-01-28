@@ -11,20 +11,8 @@ namespace Extinction.Objects
     {
         public override void Draw()
         {
-            this.world = Matrix.CreateTranslation(4.3f,4.3f,4.3f);
-
-            ExtinctionGame.SetState_AlphaBlend();
-            ExtinctionGame.SetState_NoCull();
-            ExtinctionGame.SetState_NoDepthWrite();
-
-            ModelDataSet data = (ModelDataSet)model.Tag;
-            data.shader.Parameters["Time"].SetValue((float)ExtinctionGame.instance.getGameTime().TotalGameTime.TotalMilliseconds / 1000f);
-            ExtinctionGame.DrawModel(model, Matrix.Identity);
+            this.world = Matrix.CreateTranslation(5f, 5f, 5f);
             base.Draw();
-            
-            ExtinctionGame.SetState_Opaque();
-            ExtinctionGame.SetState_Cull();
-            ExtinctionGame.SetState_DepthWrite();
         }
     }
 }
