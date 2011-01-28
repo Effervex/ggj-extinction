@@ -17,10 +17,12 @@ namespace Extinction.Screens
         private int EDGE_ICON_BUFFER = 5;
         private int ICON_TO_ICON_BUFFER = 10;
         private int SELECTED_ICON_BUFFER = 2;
+        private float RATE_OF_ROTATION = 0.1f;
 
         ContentManager content;
 
         Vector3 cameraPosition;
+        float rotation;
 
         Model modelIsland;
         Model modelGrass;
@@ -112,6 +114,8 @@ namespace Extinction.Screens
             // Check the mouse in regards to the tool icons
             checkMouseClick();
 
+            updateView();
+
             gameState.Update(gameTime);
 
             prevMouseState = Mouse.GetState();
@@ -152,6 +156,14 @@ namespace Extinction.Screens
             }
         }
 
+        private void updateView()
+        {
+            if (Keyboard.GetState().IsKeyDown(Keys.D))
+                rotation += RATE_OF_ROTATION;
+            else if (Keyboard.GetState().IsKeyDown(Keys.A))
+                rotation -= RATE_OF_ROTATION;
+        }
+
         /// <summary>
         /// Draws the gameplay screen.
         /// </summary>
@@ -164,6 +176,7 @@ namespace Extinction.Screens
             cameraPosition = new Vector3(5, 5, 5) * 1.3f;
 
             cameraPosition = new Vector3(5, 5, 5) * 2.3f;
+            cameraPosition = Vector3.Transform(cameraPosition, Matrix.CreateRotationY(rotation));
 
             ExtinctionGame.view = Matrix.CreateLookAt(cameraPosition, Vector3.Zero + Vector3.Up * 5f, Vector3.Up);
             ExtinctionGame.projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(70f),
@@ -205,8 +218,6 @@ namespace Extinction.Screens
 
 
             }
-
-
         }
     }
 }
