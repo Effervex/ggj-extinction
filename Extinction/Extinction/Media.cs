@@ -20,6 +20,9 @@ namespace Extinction
     public partial class ExtinctionGame : Microsoft.Xna.Framework.Game
     {
         private static Microsoft.Xna.Framework.Game instance;
+        public static Matrix view = Matrix.Identity;
+        public static Matrix projection = Matrix.Identity;
+
         private static Dictionary<string, Model> models = new Dictionary<string, Model>();
         private static Dictionary<string, Effect> effects = new Dictionary<string, Effect>();
         private static Dictionary<string, Texture> textures = new Dictionary<string, Texture>();
@@ -208,7 +211,7 @@ namespace Extinction
             }
         }
          
-        public static void DrawModel(Model model, Matrix world, Matrix view, Matrix projection) {
+        public static void DrawModel(Model model, Matrix world) {
 
             if (model != null)
             {

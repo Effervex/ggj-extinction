@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Extinction.Objects;
 
 namespace Extinction.Screens
 {
@@ -15,11 +16,13 @@ namespace Extinction.Screens
     {
         ContentManager content;
 
-        Matrix view, projection;
         Vector3 cameraPosition;
 
         Model modelIsland;
         Model modelGrass;
+
+        Island island;
+        Grass grass;
 
         /// <summary>
         /// Constructor.
@@ -28,6 +31,9 @@ namespace Extinction.Screens
         {
             TransitionOnTime = TimeSpan.FromSeconds(1.5);
             TransitionOffTime = TimeSpan.FromSeconds(0.5);
+
+            island = new Island();
+            grass = new Grass();
         }
 
         /// <summary>
@@ -38,6 +44,8 @@ namespace Extinction.Screens
             if (content == null)
                 content = new ContentManager(ScreenManager.Game.Services, "Content");
 
+            island.Create(@"island/island_mesh");
+            grass.Create(@"foliage/grass_mesh");
             // A real game would probably have more content than this sample, so
             // it would take longer to load. We simulate that by delaying for a
             // while, giving you a chance to admire the beautiful loading screen.
@@ -48,8 +56,8 @@ namespace Extinction.Screens
             // it should not try to catch up.
             ScreenManager.Game.ResetElapsedTime();
 
-            modelIsland = ExtinctionGame.LoadModel(@"island/island_mesh");
-            modelGrass = ExtinctionGame.LoadModel(@"foliage/grass_mesh");
+            //modelIsland = ExtinctionGame.LoadModel(@"island/island_mesh");
+            //modelGrass = ExtinctionGame.LoadModel(@"foliage/grass_mesh");
         }
 
         public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
@@ -77,16 +85,19 @@ namespace Extinction.Screens
             ScreenManager.GraphicsDevice.Clear(ClearOptions.Target,
                                                Color.CornflowerBlue, 0, 0);
              
-           cameraPosition = new Vector3(15,15,15) * .3f;
+           cameraPosition = new Vector3(15,15,15) * 1.3f;
 
 
-           view = Matrix.CreateLookAt(cameraPosition, Vector3.Zero, Vector3.Up);
-           projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(70f),
+           ExtinctionGame.view = Matrix.CreateLookAt(cameraPosition, Vector3.Zero, Vector3.Up);
+           ExtinctionGame.projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(70f),
                (float)ScreenManager.GraphicsDevice.Viewport.Width / (float)ScreenManager.GraphicsDevice.Viewport.Height, 1f, 100f);
           //  ScreenManager.GraphicsDevice.Textures[0]
            // TODO: Add your drawing code here
+           island.Draw();
+           return;
            if (ScreenManager.GraphicsDevice.Textures[0] == null)
            {
+
             //   ScreenManager.GraphicsDevice.Textures[0] = content.Load<Texture2D>("blank");
            }
            //ExtinctionGame.DrawModel(modelIsland, Matrix.Identity, view, projection);
@@ -106,7 +117,7 @@ namespace Extinction.Screens
                ScreenManager.GraphicsDevice.RasterizerState = stater;
                ModelDataSet data = (ModelDataSet)modelGrass.Tag;
                data.shader.Parameters["Time"].SetValue((float)gameTime.TotalGameTime.TotalMilliseconds / 1000f);
-               ExtinctionGame.DrawModel(modelGrass, Matrix.Identity, view, projection);
+               ExtinctionGame.DrawModel(modelGrass, Matrix.Identity);
            }
            catch (Exception e)
            {
