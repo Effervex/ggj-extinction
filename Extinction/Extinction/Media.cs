@@ -19,7 +19,7 @@ namespace Extinction
 
     public partial class ExtinctionGame : Microsoft.Xna.Framework.Game
     {
-        private static Microsoft.Xna.Framework.Game instance;
+        public static ExtinctionGame instance;
         public static Matrix view = Matrix.Identity;
         public static Matrix projection = Matrix.Identity;
 
