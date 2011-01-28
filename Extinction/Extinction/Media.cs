@@ -27,6 +27,44 @@ namespace Extinction
         private static Dictionary<string, Effect> effects = new Dictionary<string, Effect>();
         private static Dictionary<string, Texture> textures = new Dictionary<string, Texture>();
 
+        public static void SetState_NoDepthWrite()
+        {
+            DepthStencilState s = new DepthStencilState();
+            s.DepthBufferWriteEnable = false;
+            ExtinctionGame.instance.GraphicsDevice.DepthStencilState = s;
+        }
+
+        public static void SetState_DepthWrite()
+        {
+            DepthStencilState s = new DepthStencilState();
+            s.DepthBufferWriteEnable = true;
+            ExtinctionGame.instance.GraphicsDevice.DepthStencilState = s;
+        }
+
+        public static void SetState_AlphaBlend()
+        {
+            ExtinctionGame.instance.GraphicsDevice.BlendState = BlendState.AlphaBlend;
+        }
+
+        public static void SetState_NoCull()
+        {
+            RasterizerState stater = new RasterizerState();
+            stater.CullMode = CullMode.None;
+            ExtinctionGame.instance.GraphicsDevice.RasterizerState = stater;
+        }
+
+        public static void SetState_Cull()
+        {
+            RasterizerState stater = new RasterizerState();
+            stater.CullMode = CullMode.CullClockwiseFace;
+            ExtinctionGame.instance.GraphicsDevice.RasterizerState = stater;
+        }
+
+        public static void SetState_Opaque()
+        {
+            ExtinctionGame.instance.GraphicsDevice.BlendState = BlendState.Opaque;
+        }
+
         private class ExtShader : Effect, IEffectMatrices
         {
             public ExtShader(Effect clone)
