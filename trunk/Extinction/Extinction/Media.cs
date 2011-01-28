@@ -64,6 +64,7 @@ namespace Extinction
 
         private static void UpdateMedia()
         {
+            /*
             if (ExtinctionGame.IsKeyPressed(Keys.Q))
             {
                 int n = models.Keys.Count;
@@ -82,6 +83,7 @@ namespace Extinction
                     ExtinctionGame.LoadShader(effects.Keys.ElementAt<string>(n));
                 }
             }
+             * */
         }
 
         public static Effect LoadShader(string filename)

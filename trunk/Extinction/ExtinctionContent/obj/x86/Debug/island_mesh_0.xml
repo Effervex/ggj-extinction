@@ -3,7 +3,7 @@
   <Asset Type="Graphics:MeshContent">
     <Name>pCone1</Name>
     <Identity>
-      <SourceFilename>C:\Users\Dacre\ggj-extinction\Extinction\ExtinctionContent\island_mesh.fbx</SourceFilename>
+      <SourceFilename>C:\Users\Admin\Desktop\OneTreeHill\Extinction\ExtinctionContent\island_mesh.fbx</SourceFilename>
       <SourceTool>FbxImporter</SourceTool>
     </Identity>
     <Transform>1 0 0 0 0 1 0 0 0 0 1 0 -0.0899319649 4.213242 -0.0325476564 1</Transform>
@@ -26,7 +26,7 @@
     <Resource ID="#Resource1" Type="Graphics:BasicMaterialContent">
       <Name>lambert1</Name>
       <Identity>
-        <SourceFilename>C:\Users\Dacre\ggj-extinction\Extinction\ExtinctionContent\island_mesh.fbx</SourceFilename>
+        <SourceFilename>C:\Users\Admin\Desktop\OneTreeHill\Extinction\ExtinctionContent\island_mesh.fbx</SourceFilename>
         <SourceTool>FbxImporter</SourceTool>
       </Identity>
       <OpaqueData>
