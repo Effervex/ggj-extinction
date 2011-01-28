@@ -107,7 +107,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Objects\Enemy.cs" />
     <Compile Include="Input.cs" />
+    <Compile Include="MagnifyingGlass.cs" />
     <Compile Include="Media.cs" />
     <Compile Include="Objects\Dome.cs" />
     <Compile Include="Objects\Entity.cs" />
@@ -118,8 +120,11 @@
     <Compile Include="Game1.cs" />
     <Compile Include="ScreenManager\GameScreen.cs" />
     <Compile Include="ScreenManager\ScreenManager.cs" />
+    <Compile Include="GameState.cs" />
     <Compile Include="Screens\InGameScreen.cs" />
     <Compile Include="Screens\TitleScreen.cs" />
+    <Compile Include="Tool.cs" />
+    <Compile Include="Objects\ToolEntity.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

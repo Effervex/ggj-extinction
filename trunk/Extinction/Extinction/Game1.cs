@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using ZuneGameState;
 using Extinction.Screens;
+using System.Collections;
 
 namespace Extinction
 {
