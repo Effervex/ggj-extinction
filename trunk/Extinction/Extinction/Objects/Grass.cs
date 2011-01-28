@@ -13,32 +13,18 @@ namespace Extinction.Objects
         {
             this.world = Matrix.CreateTranslation(4.3f,4.3f,4.3f);
 
-            /* Change settings */
-            RasterizerState stater = new RasterizerState();
-            BlendState stateb = new BlendState();
-            DepthStencilState stated = new DepthStencilState();
-            stated.DepthBufferWriteEnable = false;
-            stateb.AlphaBlendFunction = BlendFunction.Add;
-            stater.CullMode = CullMode.None;
+            ExtinctionGame.SetState_AlphaBlend();
+            ExtinctionGame.SetState_NoCull();
+            ExtinctionGame.SetState_NoDepthWrite();
 
-
-            ExtinctionGame.instance.GraphicsDevice.BlendState = BlendState.AlphaBlend;
-            ExtinctionGame.instance.GraphicsDevice.DepthStencilState = stated;
-            ExtinctionGame.instance.GraphicsDevice.RasterizerState = stater;
             ModelDataSet data = (ModelDataSet)model.Tag;
             data.shader.Parameters["Time"].SetValue((float)ExtinctionGame.instance.getGameTime().TotalGameTime.TotalMilliseconds / 1000f);
             ExtinctionGame.DrawModel(model, Matrix.Identity);
             base.Draw();
 
-            /* Restore settings */
-            DepthStencilState statend = new DepthStencilState();
-            statend.DepthBufferWriteEnable = true;
-            ExtinctionGame.instance.GraphicsDevice.DepthStencilState = statend;
-            ExtinctionGame.instance.GraphicsDevice.BlendState = BlendState.Opaque;
-            RasterizerState statenr = new RasterizerState();
-            statenr.CullMode = CullMode.CullClockwiseFace;
-            ExtinctionGame.instance.GraphicsDevice.RasterizerState = statenr;
-
+            ExtinctionGame.SetState_Opaque();
+            ExtinctionGame.SetState_Cull();
+            ExtinctionGame.SetState_DepthWrite();
         }
     }
 }

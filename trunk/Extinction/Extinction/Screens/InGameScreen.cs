@@ -78,7 +78,7 @@ namespace Extinction.Screens
 
             cursor = content.Load<Texture2D>("Cursor");
 
-            
+
             foreach (ToolIcon tool in tools)
             {
                 tool.LoadContent(content);
@@ -161,10 +161,11 @@ namespace Extinction.Screens
             ScreenManager.GraphicsDevice.Clear(ClearOptions.Target,
                                                Color.CornflowerBlue, 0, 0);
 
+            cameraPosition = new Vector3(5, 5, 5) * 1.3f;
+
             cameraPosition = new Vector3(5, 5, 5) * 2.3f;
 
-
-            ExtinctionGame.view = Matrix.CreateLookAt(cameraPosition, Vector3.Zero, Vector3.Up);
+            ExtinctionGame.view = Matrix.CreateLookAt(cameraPosition, Vector3.Zero + Vector3.Up * 5f, Vector3.Up);
             ExtinctionGame.projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(70f),
                 (float)ScreenManager.GraphicsDevice.Viewport.Width / (float)ScreenManager.GraphicsDevice.Viewport.Height, 1f, 100f);
             //  ScreenManager.GraphicsDevice.Textures[0]
@@ -173,26 +174,39 @@ namespace Extinction.Screens
             island.Draw();
             grass.Draw();
 
-
-            int y = EDGE_ICON_BUFFER;
-            ScreenManager.SpriteBatch.Begin();
-            foreach (ToolIcon tool in tools)
+            if (ScreenManager.GraphicsDevice.Textures[0] == null)
             {
-                if (tool == selectedTool)
+
+                ExtinctionGame.view = Matrix.CreateLookAt(cameraPosition, Vector3.Zero, Vector3.Up);
+                ExtinctionGame.projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(70f),
+                    (float)ScreenManager.GraphicsDevice.Viewport.Width / (float)ScreenManager.GraphicsDevice.Viewport.Height, 1f, 100f);
+                //  ScreenManager.GraphicsDevice.Textures[0]
+                // TODO: Add your drawing code here
+                dome.Draw();
+                island.Draw();
+                grass.Draw();
+
+
+                int y = EDGE_ICON_BUFFER;
+                ScreenManager.SpriteBatch.Begin();
+                foreach (ToolIcon tool in tools)
                 {
-                    Rectangle selectionRect = new Rectangle(EDGE_ICON_BUFFER - SELECTED_ICON_BUFFER, y - SELECTED_ICON_BUFFER, tool.iconTexture.Width + SELECTED_ICON_BUFFER * 2, tool.iconTexture.Height + SELECTED_ICON_BUFFER * 2);
-                    ScreenManager.SpriteBatch.Draw(selectedIcon, selectionRect, Color.White);
+                    if (tool == selectedTool)
+                    {
+                        Rectangle selectionRect = new Rectangle(EDGE_ICON_BUFFER - SELECTED_ICON_BUFFER, y - SELECTED_ICON_BUFFER, tool.iconTexture.Width + SELECTED_ICON_BUFFER * 2, tool.iconTexture.Height + SELECTED_ICON_BUFFER * 2);
+                        ScreenManager.SpriteBatch.Draw(selectedIcon, selectionRect, Color.White);
+                    }
+                    tool.Draw(gameTime, ScreenManager.SpriteBatch, new Vector2(EDGE_ICON_BUFFER, y));
+                    y += tool.iconHeight() + ICON_TO_ICON_BUFFER;
                 }
-                tool.Draw(gameTime, ScreenManager.SpriteBatch, new Vector2(EDGE_ICON_BUFFER, y));
-                y += tool.iconHeight() + ICON_TO_ICON_BUFFER;
+                ScreenManager.SpriteBatch.Draw(cursor, new Vector2(Mouse.GetState().X, Mouse.GetState().Y), Color.White);
+                ScreenManager.SpriteBatch.End();
+                base.Draw(gameTime);
+
+
             }
-            ScreenManager.SpriteBatch.Draw(cursor, new Vector2(Mouse.GetState().X, Mouse.GetState().Y), Color.White);
-            ScreenManager.SpriteBatch.End();
-            base.Draw(gameTime);
 
 
         }
-
-
     }
 }
