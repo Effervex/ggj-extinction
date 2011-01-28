@@ -97,10 +97,27 @@
       <Importer>EffectImporter</Importer>
       <Processor>EffectProcessor</Processor>
     </Compile>
+    <Compile Include="dome\dome_mesh.fbx">
+      <Name>dome_mesh</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="dome\dome_mesh_shader.fx">
+      <Name>dome_mesh_shader</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+    </Compile>
     <None Include="shader_shared.fx">
       <Name>shader_shared</Name>
       <Importer>EffectImporter</Importer>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="dome\dome_mesh_color.png">
+      <Name>dome_mesh_color</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!--  To modify your build process, add your task inside one of the targets below and uncomment it. 
