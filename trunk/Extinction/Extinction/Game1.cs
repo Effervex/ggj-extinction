@@ -31,7 +31,7 @@ namespace Extinction
             screenManager = new ScreenManager(this);
             this.Components.Add(screenManager);
             screenManager.AddScreen(new InGameScreen());
-            screenManager.AddScreen(new TitleScreen());
+      //      screenManager.AddScreen(new TitleScreen());
             
             Content.RootDirectory = "Content";
         }
