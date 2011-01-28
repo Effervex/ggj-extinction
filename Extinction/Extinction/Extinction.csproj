@@ -107,6 +107,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Input.cs" />
     <Compile Include="Objects\Enemy.cs" />
     <Compile Include="MagnifyingGlass.cs" />
     <Compile Include="Media.cs" />
