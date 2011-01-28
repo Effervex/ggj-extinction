@@ -21,6 +21,7 @@ namespace Extinction.Screens
         Model modelIsland;
         Model modelGrass;
 
+        Dome dome;
         Island island;
         Grass grass;
 
@@ -34,6 +35,7 @@ namespace Extinction.Screens
 
             island = new Island();
             grass = new Grass();
+            dome = new Dome();
         }
 
         /// <summary>
@@ -44,6 +46,7 @@ namespace Extinction.Screens
             if (content == null)
                 content = new ContentManager(ScreenManager.Game.Services, "Content");
 
+            dome.Create(@"dome/dome_mesh");
             island.Create(@"island/island_mesh");
             grass.Create(@"foliage/grass_mesh");
             // A real game would probably have more content than this sample, so
@@ -85,7 +88,7 @@ namespace Extinction.Screens
             ScreenManager.GraphicsDevice.Clear(ClearOptions.Target,
                                                Color.CornflowerBlue, 0, 0);
              
-           cameraPosition = new Vector3(15,15,15) * 1.3f;
+           cameraPosition = new Vector3(5,5,5) *2.3f;
 
 
            ExtinctionGame.view = Matrix.CreateLookAt(cameraPosition, Vector3.Zero, Vector3.Up);
@@ -93,7 +96,9 @@ namespace Extinction.Screens
                (float)ScreenManager.GraphicsDevice.Viewport.Width / (float)ScreenManager.GraphicsDevice.Viewport.Height, 1f, 100f);
           //  ScreenManager.GraphicsDevice.Textures[0]
            // TODO: Add your drawing code here
+           dome.Draw();
            island.Draw();
+           grass.Draw();
            
            if (ScreenManager.GraphicsDevice.Textures[0] == null)
            {
