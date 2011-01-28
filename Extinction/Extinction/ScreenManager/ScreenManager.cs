@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using System.Diagnostics;
+using Microsoft.Xna.Framework.Input;
 
 namespace ZuneGameState
 {
@@ -134,7 +135,6 @@ namespace ZuneGameState
         /// </summary>
         public override void Update(GameTime gameTime)
         {
-
             // Make a copy of the master screen list, to avoid confusion if
             // the process of updating one screen adds or removes others.
             screensToUpdate.Clear();
