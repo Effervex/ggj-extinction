@@ -35,11 +35,15 @@ namespace Extinction.Screens
 
         List<ToolIcon> tools;
         ToolIcon selectedTool = null;
-        Texture2D cursor;
 
         MouseState prevMouseState;
 
         GameState gameState;
+
+        
+
+
+
 
         public void Initialise()
         {
@@ -76,11 +80,12 @@ namespace Extinction.Screens
             dome.Create(@"dome/dome_mesh");
             island.Create(@"island/island_mesh");
             grass.Create(@"foliage/grass_mesh");
-            sphere.Create(@"sphere0-5");
+            sphere.Create(@"possum/possum");
 
             selectedIcon = content.Load<Texture2D>("SelectedIcon");
 
-            cursor = content.Load<Texture2D>("Cursor");
+            //cursor = content.Load<Texture2D>("Cursor");
+            ExtinctionGame.instance.cursor = new Cursor(ExtinctionGame.instance, content);
 
 
             foreach (ToolIcon tool in tools)
@@ -141,6 +146,8 @@ namespace Extinction.Screens
 
         public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
         {
+            ExtinctionGame.instance.cursor.Update(gameTime);
+
             if (test == null)
             {
                 test = new ParticleSystem();
@@ -160,13 +167,16 @@ namespace Extinction.Screens
                 tool.Update(gameTime);
             }
 
+            // update moving objects
+            island.Update();
+            
             // Check the mouse in regards to the tool icons
             checkMouseClick();
 
             
             float spin_decel = 0.1f;
             Vector2 delta = ExtinctionGame.MouseDelta ;
-
+            
 
 
             if (Math.Abs( delta.X) < 0.25)
@@ -248,6 +258,7 @@ namespace Extinction.Screens
             dome.Draw();
             test.Draw(); 
             island.Draw();
+            sphere.Draw(); 
             grass.Draw();
 
             
@@ -260,11 +271,12 @@ namespace Extinction.Screens
                     (float)ScreenManager.GraphicsDevice.Viewport.Width / (float)ScreenManager.GraphicsDevice.Viewport.Height, 1f, 100f);
                 //  ScreenManager.GraphicsDevice.Textures[0]
                 // TODO: Add your drawing code here
+                /*
                 dome.Draw();
                 island.Draw();
                 sphere.Draw();
                 grass.Draw();
-                
+                */
 
                 int y = EDGE_ICON_BUFFER;
                 ScreenManager.SpriteBatch.Begin();
@@ -278,7 +290,7 @@ namespace Extinction.Screens
                     tool.Draw(gameTime, ScreenManager.SpriteBatch, new Vector2(EDGE_ICON_BUFFER, y));
                     y += tool.iconHeight() + ICON_TO_ICON_BUFFER;
                 }
-                ScreenManager.SpriteBatch.Draw(cursor, new Vector2(Mouse.GetState().X, Mouse.GetState().Y), Color.White);
+                //ScreenManager.SpriteBatch.Draw(cursor, new Vector2(Mouse.GetState().X, Mouse.GetState().Y), Color.White);
                 ScreenManager.SpriteBatch.End();
                 base.Draw(gameTime);
 

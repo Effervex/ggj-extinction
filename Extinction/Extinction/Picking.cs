@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
-namespace TrianglePickingPipeline
+namespace Extinction
 {
     static class Picking
     {
@@ -19,7 +19,7 @@ namespace TrianglePickingPipeline
         /// Returns the distance along the ray to the point of intersection, or null
         /// if there is no intersection.
         /// </summary>
-        static float? RayIntersectsModel(Ray ray, Model model, Matrix modelTransform,
+        public static float? RayIntersectsModel(Ray ray, Model model, Matrix modelTransform,
                                          out bool insideBoundingSphere,
                                          out Vector3 vertex1, out Vector3 vertex2,
                                          out Vector3 vertex3)
@@ -129,7 +129,7 @@ namespace TrianglePickingPipeline
         /// however, so in this particular case the performance benefits from passing
         /// everything by reference outweigh the loss of readability.
         /// </summary>
-        static void RayIntersectsTriangle(ref Ray ray,
+        public static void RayIntersectsTriangle(ref Ray ray,
                                           ref Vector3 vertex1,
                                           ref Vector3 vertex2,
                                           ref Vector3 vertex3, out float? result)

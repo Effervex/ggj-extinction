@@ -25,6 +25,8 @@ namespace Extinction
         public static float dt = 0f;
         public static Random random = new Random();
 
+        public Cursor cursor;
+
         public static float GetTimeDelta()
         {
             return dt;
@@ -242,20 +244,24 @@ namespace Extinction
                 Model newModel = instance.Content.Load<Model>(filename);
                 if (newModel == null)
                     throw new Exception("Failed to load new model:" + filename);
-
+                
+                // add custom data for textures
                 ModelDataSet set = new ModelDataSet();
-                set.color = LoadTexture(filename + "_color");
-                set.mask = LoadTexture(filename + "_mask");
-                set.normal = LoadTexture(filename + "_normal");
+                if (newModel.Tag == null)
+                {
+                    newModel.Tag = new Dictionary<string, object>();
+                }
+                ((Dictionary<string, object>)newModel.Tag)["color"] = LoadTexture(filename + "_color");
+                ((Dictionary<string, object>)newModel.Tag)["mask"] = LoadTexture(filename + "_mask");
+                ((Dictionary<string, object>)newModel.Tag)["normal"] = LoadTexture(filename + "_normal");
 
-                newModel.Tag = set;
 
                 Effect effect = LoadShader(filename + "_shader");
                 if(effect == null)
                     throw new Exception("Failed to load new effect:" + filename + "_shader");
 
                 effect = new ExtShader(effect);
-                set.shader = effect;
+                ((Dictionary<string, object>)newModel.Tag)["shader"] = effect;
 
                 for(int i = 0; i < newModel.Meshes.Count; i++)
                 {
@@ -285,11 +291,12 @@ namespace Extinction
             {
                 if (model.Tag != null)
                 {
-                    ModelDataSet textures = (ModelDataSet)model.Tag;
 
-                    if (null != textures.color)     instance.GraphicsDevice.Textures[0] = textures.color;
-                    if (null != textures.mask)      instance.GraphicsDevice.Textures[1] = textures.mask;
-                    if (null != textures.normal)    instance.GraphicsDevice.Textures[2] = textures.normal;
+                    Dictionary<string, object> textures = (Dictionary<string, object>)model.Tag;
+
+                    if (null != textures["color"]) instance.GraphicsDevice.Textures[0] = (Texture)textures["color"];
+                    if (null != textures["mask"]) instance.GraphicsDevice.Textures[1] = (Texture)textures["mask"];
+                    if (null != textures["normal"]) instance.GraphicsDevice.Textures[2] = (Texture)textures["normal"];
 
                 }
                 model.Draw(world, view, projection);

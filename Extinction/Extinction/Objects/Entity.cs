@@ -23,5 +23,9 @@ namespace Extinction.Objects
             if(model!=null)
             ExtinctionGame.DrawModel(model, world);
         }
+
+        virtual public void Update()
+        {
+        }
     }
 }

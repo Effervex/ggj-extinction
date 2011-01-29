@@ -11,8 +11,11 @@ namespace Extinction.Objects
     {
         public override void Draw()
         {
-            this.world = Matrix.CreateTranslation(5f, 5f, 5f);
+            this.world = Matrix.CreateTranslation(2f, 8f, 2f);
+            this.world = Matrix.Multiply(this.world, Matrix.CreateScale(1f));
+
             base.Draw();
+
         }
     }
 }

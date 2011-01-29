@@ -107,6 +107,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cursor.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="Objects\CombatEntity.cs" />
     <Compile Include="Objects\Enemy.cs" />
@@ -117,6 +118,7 @@
     <Compile Include="Objects\Entity.cs" />
     <Compile Include="Objects\Grass.cs" />
     <Compile Include="Objects\Island.cs" />
+    <Compile Include="Picking.cs" />
     <Compile Include="ProbabilityDistribution.cs" />
     <Compile Include="ParticleSystem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -136,6 +138,14 @@
     <Content Include="GameThumbnail.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\TrianglePickingPipeline\TrianglePickingPipeline.csproj">
+      <Project>{35D4955B-8D3A-492A-B76B-2306A50C44F8}</Project>
+      <Name>TrianglePickingPipeline</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\TrianglePickingPipeline\TrianglePickingPipeline.csproj">
+      <Project>{35D4955B-8D3A-492A-B76B-2306A50C44F8}</Project>
+      <Name>TrianglePickingPipeline</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ExtinctionContent\ExtinctionContent.contentproj">
       <Name>ExtinctionContent</Name>
       <XnaReferenceType>Content</XnaReferenceType>

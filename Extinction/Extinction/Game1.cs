@@ -24,6 +24,7 @@ namespace Extinction
         public ExtinctionGame()
         {
             instance = this;
+            this.IsMouseVisible = true;
 
             /* Create 3D device */
             graphics = new GraphicsDeviceManager(this);
@@ -54,6 +55,11 @@ namespace Extinction
         public GameTime getGameTime()
         {
             return _gametime;
+        }
+
+        protected override void Initialize()
+        {
+            base.Initialize();
         }
     }
 }
