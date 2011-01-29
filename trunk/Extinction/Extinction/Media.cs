@@ -23,6 +23,7 @@ namespace Extinction
         public static Matrix view = Matrix.Identity;
         public static Matrix projection = Matrix.Identity;
         public static float dt = 0f;
+        public static float t = 0f;
         public static Random random = new Random();
 
         public Cursor cursor;
@@ -30,6 +31,11 @@ namespace Extinction
         public static float GetTimeDelta()
         {
             return dt;
+        }
+
+        public static float GetTimeTotal()
+        {
+            return t;
         }
 
         public static float Random()

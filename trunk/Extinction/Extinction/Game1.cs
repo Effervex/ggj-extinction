@@ -40,11 +40,14 @@ namespace Extinction
 
         protected override void Update(GameTime gameTime)
         {
+            if (ExtinctionGame.IsKeyPressed(Keys.T))
+                ExtinctionGame.ReloadTextures();
+            
             _gametime = gameTime;
             dt = _gametime.ElapsedGameTime.Milliseconds / 1000f;
-            UpdateInput();
+            t += dt;
             screenManager.Update(gameTime);
-
+            UpdateInput();
         }
 
         protected override void Draw(GameTime gameTime)

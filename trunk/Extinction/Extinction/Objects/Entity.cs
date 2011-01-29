@@ -20,8 +20,14 @@ namespace Extinction.Objects
 
         virtual public void Draw()
         {
-            if(model!=null)
-            ExtinctionGame.DrawModel(model, world);
+            if (model != null)
+            {
+                Dictionary<string, object> dict = (Dictionary<string, object>)model.Tag;
+                (dict["shader"] as Effect).Parameters["Time"].SetValue(
+                    ExtinctionGame.GetTimeTotal());
+
+                ExtinctionGame.DrawModel(model, world);
+            }
         }
 
         virtual public void Update()
