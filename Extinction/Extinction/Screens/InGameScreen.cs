@@ -165,36 +165,31 @@ namespace Extinction.Screens
 
             
             float spin_decel = 0.1f;
-            Vector2 delta = ExtinctionGame.MouseDelta * 0.01251f;
+            Vector2 delta = ExtinctionGame.MouseDelta ;
 
 
 
             if (Math.Abs( delta.X) < 0.25)
             {
-                spin_velocity.X *= 0.8f;
+                //spin_velocity.X *= 0.8f;
             }
             else
             {
-                spin_velocity.X = MathHelper.Clamp(spin_velocity.X + delta.X, -1f, 1f) * 0.25f;
-            }
 
-            spin_info.Y -= delta.Y;
+            } 
+            
+            spin_velocity.X = MathHelper.Clamp((spin_velocity.X + delta.X) * 0.998f, -1f, 1f) * 0.25f;
+            //spin_velocity.X *= 0.8f;
+
             float maxY = 1.5f;
             float minY = 0.5f;
-
-
-
-            spin_info.Y = MathHelper.Clamp(spin_info.Y, 0.5f, 1.5f);
+            
+            spin_info.Y = MathHelper.Clamp(spin_info.Y - delta.Y, 0.5f, 1.5f);
             spin_info.X += spin_velocity.X;
-
-        //    if (Keyboard.GetState().IsKeyDown(Keys.D))
-            //spin_info += spin_velocity * ExtinctionGame.GetTimeDelta();
-         //   else if (Keyboard.GetState().IsKeyDown(Keys.A))
-        //        rotation -= RATE_OF_ROTATION * ExtinctionGame.GetTimeDelta();
 
             Console.WriteLine(spin_info);
             gameState.Update(gameTime);
-
+            Console.WriteLine(spin_velocity.X);
             prevMouseState = Mouse.GetState();
         }
 
