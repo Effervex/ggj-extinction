@@ -30,8 +30,10 @@ namespace Extinction.Objects
             }
         }
 
-        virtual public void Update()
+        public virtual bool Update(GameTime gameTime)
         {
+            return true;
         }
+
     }
 }

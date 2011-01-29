@@ -98,10 +98,6 @@ namespace Extinction.Objects
 
         }
 
-        public override void Update()
-        {
-            //UpdatePicking();
-        }
 
         public override void Draw()
         {
@@ -115,7 +111,7 @@ namespace Extinction.Objects
             // Draw the outline of the triangle under the cursor.
             //DrawPickedTriangle();
 
-            base.Draw();
+            //base.Draw();
 
         }
 

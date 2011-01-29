@@ -85,40 +85,7 @@ namespace Extinction.Screens
             possum.Create(@"possum/possum", content);
             possum.isAnimated = true;
             possum.world = Matrix.CreateTranslation(new Vector3(2, 7, 2));
-
-            /*******
-             * 
-             * ANIMATION
-             *
-             */
-
-            //Loading the skining data object from the models.
-            AlphaSubmarines.SkinningData skiningData = (AlphaSubmarines.SkinningData)((Dictionary<string, object>)possum.getTag())["SkinData"];
-
-            //Createing a new mixer object, it has tracks that can play more then one animation at the same time on the same model.
-            ExtinctionGame.instance.mixer = new AlphaSubmarines.AnimationPlayer.AnimationMixer(skiningData);
-
-            //Add a track to the mixer that will use matrices for internal node representation.
-            ExtinctionGame.instance.mixer.AddTrack(false, false);
-
-            //Start the "walk" animation on track 0.
-            String[] animNames = ExtinctionGame.instance.mixer.GetAllAnimationNames();
-            foreach (String name in animNames)
-            {
-                if (name != null && name != "")
-                {
-                    ExtinctionGame.instance.mixer[0].StartClip(ExtinctionGame.instance.mixer.GetAnimation(name));
-                }
-            }
-            ExtinctionGame.instance.mixer.BoneSetWeightForTrack("Default", 0, 0.5f);
-
-            //Make the tracks loopable.
-            ExtinctionGame.instance.mixer[0].IsLoopable = true;
-            //Set the mixer as visible, if it's not visible it will calculate the time steps but it will not calculate the transforms.
-            ExtinctionGame.instance.mixer.IsNotVisible = false;
-            //If paused the mixer will skip all calculations.
-            ExtinctionGame.instance.mixer.IsPaused = false;
-
+            possum.queueAnimation("Attacking", false);
 
 
             selectedIcon = content.Load<Texture2D>("SelectedIcon");
@@ -209,11 +176,8 @@ namespace Extinction.Screens
             }
 
             // update moving objects
-            island.Update();
-
-            //Update the internal state of the animation mixer.
-            ExtinctionGame.instance.mixer.Update(gameTime.ElapsedGameTime.Ticks);
-
+            island.Update(gameTime);
+            possum.Update(gameTime);
 
 
             // Check the mouse in regards to the tool icons

@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace Extinction.Objects
 {
-    abstract class Enemy : CombatEntity
+    public abstract class Enemy : CombatEntity
     {
         public double spawnProb = 0.1;
         public float speed;
@@ -24,8 +24,8 @@ namespace Extinction.Objects
             this.speed = speed;
             this.spawnProb = spawnProb;
         }
-            
-        
+
+
         public void Update(GameTime gameTime, Dictionary<Vector2, ToolEntity> placedTools)
         {
             base.Update(gameTime);
