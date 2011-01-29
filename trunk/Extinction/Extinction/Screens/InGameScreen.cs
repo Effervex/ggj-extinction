@@ -194,7 +194,7 @@ namespace Extinction.Screens
                 dome.Draw();
                 island.Draw();
                 sphere.Draw();
-grass.Draw();
+                grass.Draw();
                 
 
                 int y = EDGE_ICON_BUFFER;
