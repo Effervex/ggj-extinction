@@ -21,7 +21,11 @@ namespace Extinction.Objects
             float time = (float)ExtinctionGame.instance.getGameTime().TotalGameTime.TotalMilliseconds / 1000f;
             time *= 5;
 
-            ModelDataSet textures = (ModelDataSet)model.Tag;
+            ModelDataSet textures = new ModelDataSet();
+            textures.color = (Texture)((Dictionary<string,object>)model.Tag)["color"];
+            textures.mask = (Texture)((Dictionary<string, object>)model.Tag)["mask"];
+            textures.normal = (Texture)((Dictionary<string, object>)model.Tag)["normal"];
+            textures.shader = (Effect)((Dictionary<string, object>)model.Tag)["shader"];
             textures.shader.Parameters["blendSky"].SetValue(false);
 
             world = Matrix.CreateRotationY(MathHelper.ToRadians(time));

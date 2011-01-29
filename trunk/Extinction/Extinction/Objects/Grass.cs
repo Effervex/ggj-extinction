@@ -11,14 +11,19 @@ namespace Extinction.Objects
     {
         public void Draw(List<Matrix> matrix)
         {
-            this.world = Matrix.CreateTranslation(4.3f,4.3f,4.3f);
+            this.world = Matrix.CreateTranslation(4f,5f,4f);
 
             ExtinctionGame.SetState_AlphaBlend();
             ExtinctionGame.SetState_NoCull();
             ExtinctionGame.SetState_NoDepthWrite();
 
-            ModelDataSet data = (ModelDataSet)model.Tag;
-            data.shader.Parameters["Time"].SetValue((float)ExtinctionGame.instance.getGameTime().TotalGameTime.TotalMilliseconds / 1000f);
+            ModelDataSet textures = new ModelDataSet();
+            textures.color = (Texture)((Dictionary<string, object>)model.Tag)["color"];
+            textures.mask = (Texture)((Dictionary<string, object>)model.Tag)["mask"];
+            textures.normal = (Texture)((Dictionary<string, object>)model.Tag)["normal"];
+            textures.shader = (Effect)((Dictionary<string, object>)model.Tag)["shader"];
+            
+            textures.shader.Parameters["Time"].SetValue((float)ExtinctionGame.instance.getGameTime().TotalGameTime.TotalMilliseconds / 1000f);
             foreach(Matrix m in matrix) {
                 //ExtinctionGame.DrawModel(model, m);
                 base.Draw();
