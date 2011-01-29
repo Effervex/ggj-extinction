@@ -10,12 +10,9 @@ namespace Extinction.Objects
         public Tree()
             : base(500, 0, 0)
         {
+            filename = @"tree/tree_mesh";
         }
 
-        public bool Create()
-        {
-            return base.Create(@"tree/tree_mesh");
-        }
         public override void Draw()
         {
             base.Draw();

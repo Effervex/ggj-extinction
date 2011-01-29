@@ -20,9 +20,12 @@ namespace Extinction.Objects
             location.Y = GameState.NUM_ROWS;
         }
 
-        public void Update(GameTime gameTime, Dictionary<Vector2, ToolEntity> placedTools)
+        public bool Update(GameTime gameTime, Dictionary<Vector2, ToolEntity> placedTools)
         {
-            base.Update(gameTime);
+            bool result = base.Update(gameTime);
+
+            // Move enemy towards next grid point
+
 
             // The enemy has encountered a tool
             Vector2 enemyLoc = new Vector2((int)location.X, (int)location.Y);
@@ -45,6 +48,8 @@ namespace Extinction.Objects
                 // This creature is at the tree. Attack the tree!
                 GameState.tree.takeDamage(damage);
             }
+
+            return result;
         }
 
         internal double getSpawnProb()

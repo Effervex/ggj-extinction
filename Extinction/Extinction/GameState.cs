@@ -6,14 +6,15 @@ using Extinction;
 using Extinction.Objects;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using System.Collections.ObjectModel;
 
 namespace Extinction
 {
     class GameState
     {
-        public static int NUM_LANES = 12;
+        public static int NUM_LANES = 13;
         public static int NUM_ROWS = 8;
-        public static float SPAWN_CHANCE = 0.01f;
+        public static float SPAWN_CHANCE = 0.005f;
         public static float TREE_BUFFER_PERCENT = 0.2f;
         public static float SAFE_Y_HEIGHT = 20;
         // Indexed by lane, then by row
@@ -22,25 +23,26 @@ namespace Extinction
         public Dictionary<Vector2, ToolEntity> placedTools;
         public static Tree tree;
 
-        public List<Enemy> enemies;
+        public List<Enemy> currentEnemies;
         ProbabilityDistribution<Enemy> enemySpawner;
 
         public static float minIslandRadius = 6;
 
-        public GameState()
+        public GameState(List<Enemy> enemies)
         {
-            Initialise();
+            Initialise(enemies);
         }
 
-        public void Initialise()
+        public void Initialise(List<Enemy> enemies)
         {
             placedTools = new Dictionary<Vector2, ToolEntity>();
 
             // Random scattering of rocks here?
-            enemies = new List<Enemy>();
+            currentEnemies = new List<Enemy>();
             enemySpawner = new ProbabilityDistribution<Enemy>();
-            Enemy enemy = new Possum();
-            enemySpawner.addItem(enemy, enemy.getSpawnProb());
+            foreach (Enemy enemy in enemies)
+                enemySpawner.addItem(enemy, enemy.getSpawnProb());
+            enemySpawner.normalise();
             pathPoints = new BoundingSphere[NUM_LANES, NUM_ROWS + 1];
             sphereGridPoints = new Dictionary<BoundingSphere, Vector2>();
 
@@ -91,28 +93,54 @@ namespace Extinction
         public void Update(GameTime gameTime)
         {
             // Spawn new enemy with chance
-
+            if (ExtinctionGame.random.NextDouble() < SPAWN_CHANCE)
+            {
+                Enemy newEnemy = enemySpawner.sample();
+                int lane = ExtinctionGame.random.Next(GameState.NUM_LANES);
+                Enemy spawned = (Enemy)newEnemy.NewEntity(pathPoints[lane, NUM_ROWS].Center);
+                spawned.location.X = lane;
+                currentEnemies.Add(spawned);
+            }
+            SPAWN_CHANCE *= 1.0001f;
 
             // Update the active tools
             if (placedTools.Count > 0)
             {
+                List<Vector2> destroyed = new List<Vector2>();
                 foreach (ToolEntity toolEntity in placedTools.Values)
                 {
                     if (toolEntity != null)
-                        toolEntity.Update(gameTime, enemies);
+                        if (toolEntity.Update(gameTime, currentEnemies))
+                            destroyed.Add(toolEntity.location);
                 }
+                foreach (Vector2 destroy in destroyed)
+                    placedTools.Remove(destroy);
             }
 
             // Update the active enemies
-            foreach (Enemy enemy in enemies)
-                enemy.Update(gameTime, placedTools);
+            List<Enemy> killed = new List<Enemy>();
+            foreach (Enemy enemy in currentEnemies)
+            {
+                if (enemy.Update(gameTime, placedTools))
+                    killed.Add(enemy);
+            }
+            foreach (Enemy kill in killed)
+                currentEnemies.Remove(kill);
         }
 
         internal void Draw(GameTime gameTime)
         {
-            // Draw the tools
+            // Draw the active tools
+            foreach (ToolEntity tool in placedTools.Values)
+            {
+                tool.Draw();
+            }
 
-            // Draw the enemies
+            // Draw the active enemies
+            foreach (Enemy enemy in currentEnemies)
+            {
+                enemy.Draw();
+            }
         }
 
 

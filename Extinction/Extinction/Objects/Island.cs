@@ -40,6 +40,11 @@ namespace Extinction.Objects
             CullMode = CullMode.None
         };
 
+        public Island()
+        {
+            filename = @"island/island_mesh";
+        }
+
 
         /// <summary>
         /// Runs a per-triangle picking algorithm over all the models in the scene,

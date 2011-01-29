@@ -4,14 +4,15 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Content;
 
 namespace Extinction.Objects
 {
     public abstract class CombatEntity : Entity
     {
-        public int health;
-        public int currentHealth;
-        public int damage;
+        public float health;
+        public float currentHealth;
+        public float damage;
         public float rateOfAttack;
         public float attackDelay;
         public Vector2 location;
@@ -19,7 +20,7 @@ namespace Extinction.Objects
         protected Effect animationRenderEffect;
         protected AlphaSubmarines.AnimationPlayer.AnimationMixer animationMixer;
 
-        public CombatEntity(int health, int damage, float rateOfAttack)
+        public CombatEntity(float health, float damage, float rateOfAttack)
         {
             this.health = health;
             this.damage = damage;
@@ -27,7 +28,7 @@ namespace Extinction.Objects
             currentHealth = health;
         }
 
-        internal void takeDamage(int damage)
+        internal void takeDamage(float damage)
         {
             currentHealth -= damage;
         }
@@ -38,6 +39,7 @@ namespace Extinction.Objects
         public override bool Update(GameTime gameTime)
         {
             //Update the internal state of the animation mixer.
+            if (animationMixer != null)
             animationMixer.Update(gameTime.ElapsedGameTime.Ticks);
 
             // Reduce the attack delay
@@ -56,9 +58,9 @@ namespace Extinction.Objects
             return model.Tag;
         }
 
-        public bool Create(string filename, Microsoft.Xna.Framework.Content.ContentManager contentManager)
+        public bool Create(Microsoft.Xna.Framework.Content.ContentManager contentManager)
         {
-            base.Create(filename);
+            base.Create();
 
             // A simple effect that implements standard gpu animation.
             animationRenderEffect = contentManager.Load<Effect>("animated-mesh");
@@ -155,12 +157,13 @@ namespace Extinction.Objects
             // TODO Spin the model
         }
 
-        public CombatEntity NewModel(Vector3 location)
+        public CombatEntity NewEntity(Vector3 location)
         {
-            CombatEntity model = NewModel();
-            model.transformation = Matrix.Multiply(transformation, Matrix.CreateTranslation(location));
-            model.Create(filename);
-            return model;
+            CombatEntity entity = NewModel();
+            entity.transformation = Matrix.Multiply(transformation, Matrix.CreateTranslation(location));
+            entity.model = model;
+            entity.initialLoc = location;
+            return entity;
         }
 
         public abstract CombatEntity NewModel();

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 
 namespace Extinction.Objects
 {
@@ -12,11 +13,11 @@ namespace Extinction.Objects
         public Model model;
         public Matrix world = Matrix.Identity;
         public Matrix transformation = Matrix.Identity;
+        public Vector3 initialLoc = Vector3.Zero;
         public String filename;
 
-        virtual public bool Create(string filename)
+        virtual public bool Create()
         {
-            this.filename = filename;
             model = ExtinctionGame.LoadModel(filename);
             return (model != null);
         }
