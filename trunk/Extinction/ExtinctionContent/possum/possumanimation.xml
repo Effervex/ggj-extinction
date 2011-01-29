@@ -1,9 +1,0 @@
-﻿<animation>
-  <name>AnimationSet0</name>
-  <tickspersecond>15.0</tickspersecond>
-  <animationsubset>
-    <name>running</name>
-    <startframe>1</startframe>
-    <endframe>13</endframe>
-  </animationsubset>
-</animation>
