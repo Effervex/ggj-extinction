@@ -9,7 +9,7 @@ namespace Extinction.Objects
 {
     public class Entity
     {
-        protected Model model;
+        public Model model;
         public Matrix world = Matrix.Identity;
 
         public bool Create(string filename)

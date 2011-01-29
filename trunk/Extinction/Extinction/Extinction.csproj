@@ -119,6 +119,7 @@
     <Compile Include="Objects\Grass.cs" />
     <Compile Include="Objects\Island.cs" />
     <Compile Include="Picking.cs" />
+    <Compile Include="Objects\Possum.cs" />
     <Compile Include="ProbabilityDistribution.cs" />
     <Compile Include="ParticleSystem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

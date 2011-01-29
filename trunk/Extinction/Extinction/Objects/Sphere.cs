@@ -17,5 +17,15 @@ namespace Extinction.Objects
             base.Draw();
 
         }
+
+        public void Draw(BoundingSphere bs)
+        {
+            this.world = Matrix.CreateScale(bs.Radius/ 1.5f);
+            this.world = Matrix.Multiply(this.world, Matrix.CreateTranslation(bs.Center));
+            
+
+            base.Draw();
+
+        }
     }
 }

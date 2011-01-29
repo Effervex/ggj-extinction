@@ -8,13 +8,21 @@ namespace Extinction.Objects
 {
     abstract class Enemy : CombatEntity
     {
-        public double spawnRate;
+        public double spawnProb = 0.1;
         public float speed;
         public int laneNum;
 
         public override void Initialise()
         {
+            base.Initialise();
             location.Y = GameState.NUM_ROWS;
+        }
+
+        public virtual void SetParameters(int health, int damage, float rateOfAttack, float speed, double spawnProb)
+        {
+            base.SetParameters(health, damage, rateOfAttack);
+            this.speed = speed;
+            this.spawnProb = spawnProb;
         }
             
         
@@ -43,6 +51,11 @@ namespace Extinction.Objects
                 // This creature is at the tree. Attack the tree!
                 GameState.tree.takeDamage(damage);
             }
+        }
+
+        internal double getSpawnProb()
+        {
+            return spawnProb;
         }
     }
 }

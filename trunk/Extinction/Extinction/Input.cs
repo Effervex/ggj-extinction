@@ -24,8 +24,8 @@ namespace Extinction
 
         public static bool IsKeyPressed(Keys k)
         {
-
-            if (keysPressed != null)
+            return Keyboard.GetState().IsKeyDown(k);
+            /*if (keysPressed != null)
                 foreach (Keys i in keysPressed)
                     if (i == k)
                     {
@@ -36,7 +36,7 @@ namespace Extinction
 
                         return true;
                     }
-            return false;
+            return false;*/
         }
 
         private static void UpdateInput()
