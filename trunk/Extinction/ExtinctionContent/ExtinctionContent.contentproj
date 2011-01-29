@@ -115,6 +115,11 @@
       <Processor>EffectProcessor</Processor>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="particles\particle_cloud_shader.fx">
+      <Name>particle_cloud_shader</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+    </Compile>
     <None Include="shader_shared.fx">
       <Name>shader_shared</Name>
       <Importer>EffectImporter</Importer>
@@ -151,6 +156,13 @@
     </Compile>
     <Compile Include="Transparent.png">
       <Name>Transparent</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="particles\particle_cloud_color.png">
+      <Name>particle_cloud_color</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
