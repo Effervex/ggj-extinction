@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Extinction.Objects;
 using System.Collections.ObjectModel;
+using Extinction.Icons;
 
 namespace Extinction.Screens
 {
@@ -32,7 +33,12 @@ namespace Extinction.Screens
         Island island;
         Grass grass;
         Possum possum;
+
         Crystal crystal;
+        Scrub scrub;
+        Honey honey;
+        IceCubes iceCubes;
+        Rock rock;
 
         Texture2D selectedIcon;
 
@@ -60,11 +66,19 @@ namespace Extinction.Screens
             possum = new Possum();
             enemies.Add(possum);
             tree = new Tree();
+
             crystal = new Crystal();
+            scrub = new Scrub();
+            rock = new Rock();
+            honey = new Honey();
+            iceCubes = new IceCubes();
 
             toolIcons = new List<ToolIcon>();
+            toolIcons.Add(new ScrubIcon(scrub, "iconz/iconz-scrubs"));
             toolIcons.Add(new CrystalIcon(crystal, "iconz/iconz-crystals"));
-            toolIcons.Add(new CrystalIcon(crystal, "iconz/iconz-honeydrop"));
+            toolIcons.Add(new RockIcon(rock, "iconz/iconz-rock"));
+            toolIcons.Add(new HoneyIcon(honey, "iconz/iconz-honeydrop"));
+            toolIcons.Add(new IceCubesIcon(iceCubes, "iconz/iconz-icecubes"));
 
             gameState = new GameState(enemies);
 
@@ -91,7 +105,13 @@ namespace Extinction.Screens
             dome.Create();
             island.Create();
             grass.Create();
+
             crystal.Create();
+            scrub.Create();
+            rock.Create();
+            iceCubes.Create();
+            honey.Create();
+
             possum.Create(content);
             possum.isAnimated = true;
             possum.world = Matrix.CreateTranslation(new Vector3(2, 7, 2));
@@ -247,12 +267,12 @@ namespace Extinction.Screens
                     for (int row = 0; row < GameState.NUM_ROWS; row++)
                     {
                         // If the cursor ray intersects, take the closest bounding sphere
-                        float? distance = cursorRay.Intersects(gameState.pathPoints[lane, row]);
+                        float? distance = cursorRay.Intersects(GameState.pathPoints[lane, row]);
                         if (distance.HasValue)
                         {
                             if (distance < closestDistance)
                             {
-                                closestSphere = gameState.pathPoints[lane, row];
+                                closestSphere = GameState.pathPoints[lane, row];
                                 closestDistance = (float)distance;
                                 sphereFound = true;
                             }
@@ -286,12 +306,12 @@ namespace Extinction.Screens
                     // Check for valid Tool placement
                     Vector2 gridPoint = gameState.sphereGridPoints[hoveringPlacementPoint];
                     // If nothing is already in the position
-                    if (!gameState.placedTools.ContainsKey(gridPoint))
+                    if (gameState.CanPlaceTool(gridPoint))
                     {
                         ToolEntity newTool = (ToolEntity) selectedTool.model.NewEntity(hoveringPlacementPoint.Center);
                         newTool.location = gridPoint;
-                        gameState.placedTools[gridPoint] = newTool;
-                        selectedTool.placedTool();
+                        gameState.placedTools.Add(newTool);
+                        selectedTool.toolHasBeenPlaced();
                         selectedTool = null;
                         hoveringPointFound = false;
                     }
@@ -342,9 +362,15 @@ namespace Extinction.Screens
             //sphere.Draw(gameTime, hoveringPlacementPoint);
             grass.Draw();
 
-
+            // SpriteBatch drawing
             int y = EDGE_ICON_BUFFER;
             ScreenManager.SpriteBatch.Begin();
+            SpriteFont big = ScreenManager.BigFont;
+            SpriteFont small = ScreenManager.SmallFont;
+
+            // Draw score metrics
+            WriteText("Magicks: " + GameState.magicks, big, new Vector2(102, 432));
+
             foreach (ToolIcon tool in toolIcons)
             {
                 tool.Draw(gameTime, ScreenManager.SpriteBatch, new Vector2(EDGE_ICON_BUFFER, y));
@@ -353,10 +379,10 @@ namespace Extinction.Screens
                     Rectangle selectionRect = new Rectangle(EDGE_ICON_BUFFER - SELECTED_ICON_BUFFER, y - SELECTED_ICON_BUFFER, tool.iconTexture.Width + SELECTED_ICON_BUFFER * 2, tool.iconTexture.Height + SELECTED_ICON_BUFFER * 2);
                     ScreenManager.SpriteBatch.Draw(selectedIcon, selectionRect, Color.White);
                 }
+                WriteText(tool.cost + "", small, new Vector2(EDGE_ICON_BUFFER + 50, y + 50));
                 
                 y += tool.iconHeight() + ICON_TO_ICON_BUFFER;
             }
-            //ScreenManager.SpriteBatch.Draw(cursor, new Vector2(Mouse.GetState().X, Mouse.GetState().Y), Color.White);
             ScreenManager.SpriteBatch.End();
 
             if (ScreenManager.GraphicsDevice.Textures[0] == null)
@@ -379,6 +405,12 @@ namespace Extinction.Screens
 
 
             }
+        }
+
+        public void WriteText(String text, SpriteFont font, Vector2 location)
+        {
+            ScreenManager.SpriteBatch.DrawString(font, text, location + new Vector2(2), Color.Black);
+            ScreenManager.SpriteBatch.DrawString(font, text, location, Color.White);
         }
     }
 }

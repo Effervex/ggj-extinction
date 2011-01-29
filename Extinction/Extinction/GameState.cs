@@ -12,19 +12,21 @@ namespace Extinction
 {
     class GameState
     {
-        public static int NUM_LANES = 13;
+        public static int NUM_LANES = 12;
         public static int NUM_ROWS = 8;
         public static float SPAWN_CHANCE = 0.005f;
         public static float TREE_BUFFER_PERCENT = 0.2f;
         public static float SAFE_Y_HEIGHT = 20;
         // Indexed by lane, then by row
-        public BoundingSphere[,] pathPoints;
+        public static BoundingSphere[,] pathPoints;
         public Dictionary<BoundingSphere, Vector2> sphereGridPoints;
-        public Dictionary<Vector2, ToolEntity> placedTools;
+        public List<ToolEntity> placedTools;
         public static Tree tree;
 
         public List<Enemy> currentEnemies;
         ProbabilityDistribution<Enemy> enemySpawner;
+
+        public static int magicks = 5000;
 
         public static float minIslandRadius = 6;
 
@@ -35,7 +37,7 @@ namespace Extinction
 
         public void Initialise(List<Enemy> enemies)
         {
-            placedTools = new Dictionary<Vector2, ToolEntity>();
+            placedTools = new List<ToolEntity>();
 
             // Random scattering of rocks here?
             currentEnemies = new List<Enemy>();
@@ -106,16 +108,17 @@ namespace Extinction
             // Update the active tools
             if (placedTools.Count > 0)
             {
-                List<Vector2> destroyed = new List<Vector2>();
-                foreach (ToolEntity toolEntity in placedTools.Values)
+                List<ToolEntity> destroyed = new List<ToolEntity>();
+                foreach (ToolEntity toolEntity in placedTools)
                 {
                     if (toolEntity != null)
                         if (toolEntity.Update(gameTime, currentEnemies))
-                            destroyed.Add(toolEntity.location);
+                            destroyed.Add(toolEntity);
                 }
-                foreach (Vector2 destroy in destroyed)
+                foreach (ToolEntity destroy in destroyed)
                     placedTools.Remove(destroy);
             }
+            tree.Update(gameTime);
 
             // Update the active enemies
             List<Enemy> killed = new List<Enemy>();
@@ -131,7 +134,7 @@ namespace Extinction
         internal void Draw(GameTime gameTime)
         {
             // Draw the active tools
-            foreach (ToolEntity tool in placedTools.Values)
+            foreach (ToolEntity tool in placedTools)
             {
                 tool.Draw();
             }
@@ -160,6 +163,17 @@ namespace Extinction
             float distance = buffer + (maxDistance - buffer) * rowNumber / NUM_ROWS;
             double rotation = (laneNumber * 2.0 / GameState.NUM_LANES) * Math.PI;
             return new Vector2((float)(distance * Math.Cos(rotation)), (float)(distance * Math.Sin(rotation)));
+        }
+
+        internal bool CanPlaceTool(Vector2 gridPoint)
+        {
+            foreach (ToolEntity tool in placedTools)
+            {
+                Vector2 intVector = new Vector2((int)tool.location.X, (int)tool.location.Y);
+                if (gridPoint.Equals(intVector))
+                    return false;
+            }
+            return true;
         }
     }
 }

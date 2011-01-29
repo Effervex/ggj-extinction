@@ -15,16 +15,21 @@ namespace Extinction.Objects
         public float damage;
         public float rateOfAttack;
         public float attackDelay;
+        public float speed;
+        public float currentSpeed;
         public Vector2 location;
         public bool isAnimated = false;
         protected Effect animationRenderEffect;
         protected AlphaSubmarines.AnimationPlayer.AnimationMixer animationMixer;
 
-        public CombatEntity(float health, float damage, float rateOfAttack)
+        public CombatEntity(float health, float damage, float rateOfAttack, float speed)
         {
             this.health = health;
             this.damage = damage;
             this.rateOfAttack = rateOfAttack;
+            attackDelay = rateOfAttack;
+            this.speed = speed;
+            currentSpeed = speed;
             currentHealth = health;
         }
 
@@ -45,6 +50,42 @@ namespace Extinction.Objects
             // Reduce the attack delay
             if (attackDelay > 0)
                 attackDelay -= ExtinctionGame.dt;
+
+            // If there is speed, move the object using speed
+            Vector2 oldLocation = new Vector2(location.X, location.Y);
+            if (currentSpeed != 0)
+            {
+                if (currentSpeed < 0 && location.Y > 0)
+                    location.Y += currentSpeed;
+                else if (currentSpeed > 0 && location.Y < GameState.NUM_ROWS)
+                    location.Y += currentSpeed;
+            }
+
+            // Clamp location.Y between 0 and NUM_ROWS
+            location.Y = (float) MathHelper.Clamp(location.Y, 0, GameState.NUM_ROWS);
+
+            // Calculate current 3d location
+            if (location.Y % 1 == 0)
+                location3D = GameState.pathPoints[(int)location.X, (int)location.Y].Center;
+            else
+            {
+                // Have to place object at point mid-way between two points
+                Vector3 minPoint = GameState.pathPoints[(int)location.X, (int)location.Y].Center;
+                Vector3 maxPoint = GameState.pathPoints[(int)location.X, (int)location.Y + 1].Center;
+                if (speed < 0)
+                    Vector3.Lerp(ref minPoint, ref maxPoint, location.Y % 1, out location3D);
+                else if (speed > 0)
+                    Vector3.Lerp(ref maxPoint, ref minPoint, 1 - (location.Y % 1), out location3D);
+            }
+
+            // Set up the world transformation
+            // Row-based rotation
+            world = Matrix.CreateRotationZ(-(float) ((GameState.NUM_ROWS - location.Y) / GameState.NUM_ROWS * Math.PI / 5));
+                // Lane based rotation
+            world = Matrix.Multiply(world, Matrix.CreateRotationY((float)-((location.X / GameState.NUM_LANES) * 2 * Math.PI)));
+
+            // Return speed
+            currentSpeed = speed;
 
             // Kill if no health left
             if (currentHealth <= 0)
@@ -160,9 +201,8 @@ namespace Extinction.Objects
         public CombatEntity NewEntity(Vector3 location)
         {
             CombatEntity entity = NewModel();
-            entity.transformation = Matrix.Multiply(transformation, Matrix.CreateTranslation(location));
             entity.model = model;
-            entity.initialLoc = location;
+            entity.location3D = location;
             return entity;
         }
 

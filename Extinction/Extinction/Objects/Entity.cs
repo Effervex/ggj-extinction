@@ -12,8 +12,9 @@ namespace Extinction.Objects
     {
         public Model model;
         public Matrix world = Matrix.Identity;
-        public Matrix transformation = Matrix.Identity;
-        public Vector3 initialLoc = Vector3.Zero;
+        // A matrix to handle the righting of the model and initial scaling
+        public Matrix modelTransformation = Matrix.Identity;
+        public Vector3 location3D = Vector3.Zero;
         public String filename;
 
         virtual public bool Create()
@@ -30,7 +31,8 @@ namespace Extinction.Objects
                 (dict["shader"] as Effect).Parameters["Time"].SetValue(
                     ExtinctionGame.GetTimeTotal());
 
-                ExtinctionGame.DrawModel(model, Matrix.Multiply(transformation, world));
+                world = Matrix.Multiply(world, Matrix.CreateTranslation(location3D));
+                ExtinctionGame.DrawModel(model, Matrix.Multiply(modelTransformation, world));
             }
         }
 

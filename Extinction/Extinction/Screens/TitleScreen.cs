@@ -13,7 +13,7 @@ namespace ZuneGameState
         public override void Draw(GameTime gameTime)
         {
             SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
-            SpriteFont font = ScreenManager.Font;
+            SpriteFont font = ScreenManager.BigFont;
 
             spriteBatch.Begin();
             spriteBatch.DrawString(font, "This is the title screen", new Vector2(190,210), Color.White);

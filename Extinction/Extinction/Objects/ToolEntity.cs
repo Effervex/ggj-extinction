@@ -8,8 +8,8 @@ namespace Extinction.Objects
 {
     public abstract class ToolEntity : CombatEntity
     {
-        public ToolEntity(float health, float damage, float rateOfAttack)
-            : base(health, damage, rateOfAttack)
+        public ToolEntity(float health, float damage, float rateOfAttack, float speed)
+            : base(health, damage, rateOfAttack, speed)
         {
         }
 
