@@ -30,7 +30,7 @@ VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
 	//float radius = 0.5f;
 	//float2 xz = clamp(input.Position.y + 0.5, 0, radius) * float2(cos(phase), sin(phase));
 	//input.Position.xz += xz;
-
+	input.Position.xyz *= 5;
     float4 worldPosition = mul(input.Position, World);
     float4 viewPosition = mul(worldPosition, View);
     output.Position = mul(viewPosition, Projection);
