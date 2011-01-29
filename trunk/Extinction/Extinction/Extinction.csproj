@@ -110,14 +110,15 @@
     <Compile Include="Cursor.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="Objects\CombatEntity.cs" />
+    <Compile Include="Objects\Crystal.cs" />
     <Compile Include="Objects\Enemy.cs" />
-    <Compile Include="MagnifyingGlass.cs" />
+    <Compile Include="CrystalIcon.cs" />
     <Compile Include="Media.cs" />
-    <Compile Include="Objects\Possum.cs" />
     <Compile Include="Objects\Dome.cs" />
     <Compile Include="Objects\Entity.cs" />
     <Compile Include="Objects\Grass.cs" />
     <Compile Include="Objects\Island.cs" />
+    <Compile Include="Objects\Possum.cs" />
     <Compile Include="Picking.cs" />
     <Compile Include="ProbabilityDistribution.cs" />
     <Compile Include="ParticleSystem.cs" />
@@ -129,7 +130,7 @@
     <Compile Include="GameState.cs" />
     <Compile Include="Screens\InGameScreen.cs" />
     <Compile Include="Screens\TitleScreen.cs" />
-    <Compile Include="Tool.cs" />
+    <Compile Include="ToolIcon.cs" />
     <Compile Include="Objects\ToolEntity.cs" />
     <Compile Include="Objects\Tree.cs" />
   </ItemGroup>

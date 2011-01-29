@@ -19,21 +19,12 @@ namespace Extinction.Objects
         protected Effect animationRenderEffect;
         protected AlphaSubmarines.AnimationPlayer.AnimationMixer animationMixer;
 
-        public CombatEntity()
-        {
-            Initialise();
-        }
-
-        public virtual void Initialise()
-        {
-            currentHealth = health;
-        }
-
-        public void SetParameters(int health, int damage, float rateOfAttack)
+        public CombatEntity(int health, int damage, float rateOfAttack)
         {
             this.health = health;
             this.damage = damage;
             this.rateOfAttack = rateOfAttack;
+            currentHealth = health;
         }
 
         internal void takeDamage(int damage)
@@ -163,5 +154,15 @@ namespace Extinction.Objects
             }
             // TODO Spin the model
         }
+
+        public CombatEntity NewModel(Vector3 location)
+        {
+            CombatEntity model = NewModel();
+            model.transformation = Matrix.Multiply(transformation, Matrix.CreateTranslation(location));
+            model.Create(filename);
+            return model;
+        }
+
+        public abstract CombatEntity NewModel();
     }
 }

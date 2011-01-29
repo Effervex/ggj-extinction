@@ -54,6 +54,18 @@ namespace Extinction
             get { return position;}
         }
 
+        private Vector3 threeDPosition;
+        public Vector3 ThreeDPosition
+        {
+            get { return threeDPosition; }
+        }
+
+        private Vector3 direction;
+        public Vector3 Direction
+        {
+            get { return direction; }
+        }
+
         #endregion
 
         #region Creation and initialization
@@ -234,9 +246,11 @@ namespace Extinction
 
                 // find the direction vector that goes from the nearPoint to the farPoint
                 // and normalize it....
-                Vector3 direction = farPoint - nearPoint;
+                direction = farPoint - nearPoint;
                 //direction *= -1;
                 direction.Normalize();
+                threeDPosition = nearPoint;
+
                 
                 // and then create a new ray using nearPoint as the source.
                 return new Ray(nearPoint, direction);

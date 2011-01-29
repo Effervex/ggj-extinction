@@ -11,17 +11,18 @@ namespace Extinction
 {
     class GameState
     {
-        public static int NUM_LANES = 8;
-        public static int NUM_ROWS = 10;
+        public static int NUM_LANES = 12;
+        public static int NUM_ROWS = 8;
         public static float SPAWN_CHANCE = 0.01f;
         public static float TREE_BUFFER_PERCENT = 0.2f;
         public static float SAFE_Y_HEIGHT = 20;
         // Indexed by lane, then by row
         public BoundingSphere[,] pathPoints;
-        Dictionary<Vector2, ToolEntity> placedTools;
+        public Dictionary<BoundingSphere, Vector2> sphereGridPoints;
+        public Dictionary<Vector2, ToolEntity> placedTools;
         public static Tree tree;
 
-        List<Enemy> enemies;
+        public List<Enemy> enemies;
         ProbabilityDistribution<Enemy> enemySpawner;
 
         public static float minIslandRadius = 6;
@@ -41,6 +42,7 @@ namespace Extinction
             Enemy enemy = new Possum();
             enemySpawner.addItem(enemy, enemy.getSpawnProb());
             pathPoints = new BoundingSphere[NUM_LANES, NUM_ROWS + 1];
+            sphereGridPoints = new Dictionary<BoundingSphere, Vector2>();
 
             tree = new Tree();
         }
@@ -78,9 +80,10 @@ namespace Extinction
                     y = Picking.RayIntersectsModel(new Ray(intersect, Vector3.Down), islandModel, modelTransform, out insideBoundingSphere, out a, out b, out c);
                     intersect.Y = SAFE_Y_HEIGHT - (float)y;
 
-                    float avRadius = gridDistance / 2;
+                    float avRadius = gridDistance;
                     BoundingSphere sphere = new BoundingSphere(intersect, avRadius);
                     pathPoints[lane, row] = sphere;
+                    sphereGridPoints.Add(sphere, new Vector2(lane, row));
                 }
             }
         }

@@ -49,7 +49,7 @@ namespace Extinction
             return true;
         }
 
-        public void AddPartcile(Vector3 position, int count)
+        public void AddParticle(Vector3 position, int count)
         {
             for (int i = 0; i < count; i++)
             {
