@@ -44,13 +44,7 @@ VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
  
 float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
 {
-	if(blendSky)
-    {
-		float4 c = tex2D(color, input.UV);
-		c.w = normalize(c.xyz) * 0.5f;
-		return c;
-	}
-	else
+
     return tex2D(color, input.UV);
 	
 	//float4 result = DoLighting( sample, input.Normal);
