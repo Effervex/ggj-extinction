@@ -30,7 +30,7 @@ namespace Extinction.Screens
         Dome dome;
         Island island;
         Grass grass;
-        Sphere sphere;
+        Possum possum;
 
         Texture2D selectedIcon;
 
@@ -41,7 +41,6 @@ namespace Extinction.Screens
 
         GameState gameState;
 
-        
 
 
 
@@ -51,7 +50,7 @@ namespace Extinction.Screens
             dome = new Dome();
             island = new Island();
             grass = new Grass();
-            sphere = new Sphere();
+            possum = new Possum();
             tree = new Tree();
 
             tools = new List<ToolIcon>();
@@ -83,7 +82,44 @@ namespace Extinction.Screens
             dome.Create(@"dome/dome_mesh");
             island.Create(@"island/island_mesh");
             grass.Create(@"foliage/grass_mesh");
-            sphere.Create(@"possum/possum");
+            possum.Create(@"possum/possum", content);
+            possum.isAnimated = true;
+            possum.world = Matrix.CreateTranslation(new Vector3(2, 7, 2));
+
+            /*******
+             * 
+             * ANIMATION
+             *
+             */
+
+            //Loading the skining data object from the models.
+            AlphaSubmarines.SkinningData skiningData = (AlphaSubmarines.SkinningData)((Dictionary<string, object>)possum.getTag())["SkinData"];
+
+            //Createing a new mixer object, it has tracks that can play more then one animation at the same time on the same model.
+            ExtinctionGame.instance.mixer = new AlphaSubmarines.AnimationPlayer.AnimationMixer(skiningData);
+
+            //Add a track to the mixer that will use matrices for internal node representation.
+            ExtinctionGame.instance.mixer.AddTrack(false, false);
+
+            //Start the "walk" animation on track 0.
+            String[] animNames = ExtinctionGame.instance.mixer.GetAllAnimationNames();
+            foreach (String name in animNames)
+            {
+                if (name != null && name != "")
+                {
+                    ExtinctionGame.instance.mixer[0].StartClip(ExtinctionGame.instance.mixer.GetAnimation(name));
+                }
+            }
+            ExtinctionGame.instance.mixer.BoneSetWeightForTrack("Default", 0, 0.5f);
+
+            //Make the tracks loopable.
+            ExtinctionGame.instance.mixer[0].IsLoopable = true;
+            //Set the mixer as visible, if it's not visible it will calculate the time steps but it will not calculate the transforms.
+            ExtinctionGame.instance.mixer.IsNotVisible = false;
+            //If paused the mixer will skip all calculations.
+            ExtinctionGame.instance.mixer.IsPaused = false;
+
+
 
             selectedIcon = content.Load<Texture2D>("SelectedIcon");
 
@@ -174,7 +210,12 @@ namespace Extinction.Screens
 
             // update moving objects
             island.Update();
-            
+
+            //Update the internal state of the animation mixer.
+            ExtinctionGame.instance.mixer.Update(gameTime.ElapsedGameTime.Ticks);
+
+
+
             // Check the mouse in regards to the tool icons
             checkMouseClick();
 
@@ -203,9 +244,7 @@ namespace Extinction.Screens
             spin_info.Y = MathHelper.Clamp(spin_info.Y - delta.Y, 0.5f, 1.5f);
             spin_info.X += spin_velocity.X * ExtinctionGame.GetTimeDelta();
 
-            Console.WriteLine(spin_info);
             gameState.Update(gameTime);
-            Console.WriteLine(spin_velocity.X);
             prevMouseState = Mouse.GetState();*/
 
             spin_velocity *= 0.8f; 
@@ -277,6 +316,7 @@ namespace Extinction.Screens
             dome.Draw();
             test.Draw(); 
             island.Draw();
+			possum.Draw(); 
             tree.Draw();
             grass.world = Matrix.CreateTranslation(4.5f, 4.5f, 4.5f);
             
@@ -284,7 +324,7 @@ namespace Extinction.Screens
             {
                 for (int row = 0; row <= GameState.NUM_ROWS; row++)
                 {
-                    sphere.Draw(gameState.pathPoints[lane,row]);
+                    //possum.Draw(gameState.pathPoints[lane,row]);
                 }
             }
             grass.Draw();
