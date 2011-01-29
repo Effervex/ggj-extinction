@@ -115,11 +115,6 @@
       <Processor>EffectProcessor</Processor>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="particles\particle_cloud_shader.fx">
-      <Name>particle_cloud_shader</Name>
-      <Importer>EffectImporter</Importer>
-      <Processor>EffectProcessor</Processor>
-    </Compile>
     <Compile Include="possum\possum-modelonly.fbx">
       <Name>possum-modelonly</Name>
       <Importer>FbxImporter</Importer>
@@ -154,6 +149,22 @@
       <Name>crystals_shader</Name>
       <Importer>EffectImporter</Importer>
       <Processor>EffectProcessor</Processor>
+    </Compile>
+    <Compile Include="foliage\foliage_mesh.fbx">
+      <Name>foliage_mesh</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="foliage\foliage_mesh_shader.fx">
+      <Name>foliage_mesh_shader</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+    </Compile>
+    <Compile Include="particle\particle_cloud_shader.fx">
+      <Name>particle_cloud_shader</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <None Include="shader_shared.fx">
       <Name>shader_shared</Name>
@@ -206,13 +217,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="particles\particle_cloud_color.png">
-      <Name>particle_cloud_color</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="possum\possum-modelonly_color.png">
       <Name>possum-modelonly_color</Name>
       <Importer>TextureImporter</Importer>
@@ -239,6 +243,7 @@
       <Name>tree_mesh_colour</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -280,6 +285,28 @@
       <Name>iconz-select</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="foliage\foliage_mesh_color.png">
+      <Name>foliage_mesh_color</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="tree\tree_mesh_color.png">
+      <Name>tree_mesh_color</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="particle\particle_cloud_color.png">
+      <Name>particle_cloud_color</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />

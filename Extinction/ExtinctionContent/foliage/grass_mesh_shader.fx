@@ -1,4 +1,5 @@
 #include "..\shader_shared.fx"
+bool AT = true;
 
 struct VertexShaderInput
 {
@@ -28,7 +29,7 @@ VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
 
 	float phase = Time + World._41 + World._43 + (input.Position.x + input.Position.z) * 0.1f;
 	float radius = 0.5f;
-	float2 xz = clamp(input.Position.y - 0.5, 0, radius) * float2(cos(phase), sin(phase));
+	float2 xz = clamp(input.Position.y - 5, 0, radius) * float2(cos(phase), sin(phase));
 	input.Position.xz += xz;
 
     float4 worldPosition = mul(input.Position, World);
@@ -47,7 +48,7 @@ float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
 {
     float4 sample = tex2D(color, input.UV);
 	float4 result = DoLighting( sample, input.Normal);
-
+	if(AT)clip(sample.w - 0.75f);
 	result.w = sample.w;
 	return result;
 //	return tex2D(color, input.UV) * diffuse;
