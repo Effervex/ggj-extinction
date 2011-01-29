@@ -8,28 +8,33 @@ namespace Extinction.Objects
 {
     class Crystal : ToolEntity
     {
-        public Crystal () : base(150, 0.1f, 0)
+        public Crystal () : base(150, 0.05f, 0, 0)
         {
             filename = @"crystal/crystals";
-            transformation = Matrix.CreateScale(0.25f);
-            transformation = Matrix.Multiply(transformation, Matrix.CreateRotationX((float)(-Math.PI / 2)));
+            modelTransformation = Matrix.CreateScale(0.25f);
+            modelTransformation = Matrix.Multiply(modelTransformation, Matrix.CreateRotationX((float)(-Math.PI / 2)));
         }
 
         public override bool Update(GameTime gameTime, List<Enemy> enemyPositions)
         {
             bool result = base.Update(gameTime, enemyPositions);
 
+            // Return if cannot fire
+            if (attackDelay > 0)
+                return result;
+
             // Scan for enemies in this lane or next lane at lower rows
+            bool[] laneUsed = new bool[3];
             foreach (Enemy enemy in enemyPositions)
             {
-                int enemyLane = (int) enemy.location.X;
-                int minLane = (int) (location.X - 1 + GameState.NUM_LANES) % GameState.NUM_LANES;
-                int maxLane = (int) (location.X + 1) % GameState.NUM_LANES;
-                if (enemyLane == minLane || enemyLane == location.X || enemyLane == maxLane)
+                int diff = (int) (location.X - (int)enemy.location.X + GameState.NUM_LANES) % GameState.NUM_LANES;
+                if (diff >= -1 && diff <= 1)
                 {
                     // Enemy is within range
                     // TODO Fire zappy beam
-                    enemy.takeDamage(damage);
+                    if (laneUsed[diff + 1])
+                        enemy.takeDamage(damage);
+                    laneUsed[diff + 1] = true;
                 }
             }
 

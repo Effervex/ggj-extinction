@@ -23,7 +23,8 @@ namespace ZuneGameState
         List<GameScreen> screensToUpdate = new List<GameScreen>();
 
         SpriteBatch spriteBatch;
-        SpriteFont font;
+        SpriteFont big;
+        SpriteFont small;
         Texture2D blankTexture;
 
         bool isInitialized;
@@ -49,9 +50,18 @@ namespace ZuneGameState
         /// A default font shared by all the screens. This saves
         /// each screen having to bother loading their own local copy.
         /// </summary>
-        public SpriteFont Font
+        public SpriteFont BigFont
         {
-            get { return font; }
+            get { return big; }
+        }
+
+        /// <summary>
+        /// A default font shared by all the screens. This saves
+        /// each screen having to bother loading their own local copy.
+        /// </summary>
+        public SpriteFont SmallFont
+        {
+            get { return small; }
         }
 
 
@@ -101,7 +111,8 @@ namespace ZuneGameState
             ContentManager content = Game.Content;
 
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            font = content.Load<SpriteFont>("Amazon");
+            big = content.Load<SpriteFont>("Amazon");
+            small = content.Load<SpriteFont>("AmazonSmall");
             blankTexture = content.Load<Texture2D>("blank");
 
             // Tell each of the screens to load their content.
