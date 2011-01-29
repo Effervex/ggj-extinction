@@ -14,6 +14,7 @@ namespace Extinction
         public static int NUM_ROWS = 10;
         public static float TREE_BUFFER_PERCENT = 0.1f;
         Dictionary<Vector2, ToolEntity> placedTools;
+        public static Tree tree;
 
         List<Enemy> enemies;
 
@@ -29,8 +30,9 @@ namespace Extinction
             placedTools = new Dictionary<Vector2, ToolEntity>();
 
             // Random scattering of rocks here?
-
             enemies = new List<Enemy>();
+
+            tree = new Tree();
         }
 
         public void Update(GameTime gameTime)
