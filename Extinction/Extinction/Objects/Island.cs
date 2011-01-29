@@ -111,7 +111,7 @@ namespace Extinction.Objects
             // Draw the outline of the triangle under the cursor.
             //DrawPickedTriangle();
 
-            //base.Draw();
+            base.Draw();
 
         }
 
