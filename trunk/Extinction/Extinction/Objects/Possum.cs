@@ -7,13 +7,8 @@ using Microsoft.Xna.Framework;
 
 namespace Extinction.Objects
 {
-    class Possum : Enemy
+    public class Possum : Enemy
     {
-
-        public object getTag()
-        {
-            return model.Tag;
-        }
 
     }
 }

@@ -28,7 +28,6 @@ namespace Extinction
 
         public Cursor cursor;
 
-        public AlphaSubmarines.AnimationPlayer.AnimationMixer mixer;
 
         public static float GetTimeDelta()
         {

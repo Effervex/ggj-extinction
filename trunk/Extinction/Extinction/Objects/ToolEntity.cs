@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace Extinction.Objects
 {
-    abstract class ToolEntity : CombatEntity
+    public abstract class ToolEntity : CombatEntity
     {
         public abstract void Update(GameTime gameTime, List<Enemy> enemyPositions);
     }
