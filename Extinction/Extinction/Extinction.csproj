@@ -113,13 +113,12 @@
     <Compile Include="Objects\Enemy.cs" />
     <Compile Include="MagnifyingGlass.cs" />
     <Compile Include="Media.cs" />
-    <Compile Include="Objects\Sphere.cs" />
+    <Compile Include="Objects\Possum.cs" />
     <Compile Include="Objects\Dome.cs" />
     <Compile Include="Objects\Entity.cs" />
     <Compile Include="Objects\Grass.cs" />
     <Compile Include="Objects\Island.cs" />
     <Compile Include="Picking.cs" />
-    <Compile Include="Objects\Possum.cs" />
     <Compile Include="ProbabilityDistribution.cs" />
     <Compile Include="ParticleSystem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -139,6 +138,14 @@
     <Content Include="GameThumbnail.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\SkinnedModelPipeline\SkinnedModelPipeline.csproj">
+      <Project>{4636C7E1-B845-4B83-B96D-64A11B8A4515}</Project>
+      <Name>SkinnedModelPipeline</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SkinnedModelRunetime\SkinnedModelRunetime.csproj">
+      <Project>{0D41E29B-829F-4255-BCA5-64DC2677DA6D}</Project>
+      <Name>SkinnedModelRunetime</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\TrianglePickingPipeline\TrianglePickingPipeline.csproj">
       <Project>{35D4955B-8D3A-492A-B76B-2306A50C44F8}</Project>
       <Name>TrianglePickingPipeline</Name>
@@ -174,6 +181,9 @@
       <ProductName>Microsoft XNA Framework Redistributable 4.0</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />

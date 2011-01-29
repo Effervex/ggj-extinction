@@ -12,7 +12,7 @@ namespace Extinction.Objects
         public Model model;
         public Matrix world = Matrix.Identity;
 
-        public bool Create(string filename)
+        virtual public bool Create(string filename)
         {
             model = ExtinctionGame.LoadModel(filename);
             return (model != null);

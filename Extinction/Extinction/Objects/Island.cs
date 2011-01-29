@@ -100,7 +100,7 @@ namespace Extinction.Objects
 
         public override void Update()
         {
-            UpdatePicking();
+            //UpdatePicking();
         }
 
         public override void Draw()
@@ -110,12 +110,12 @@ namespace Extinction.Objects
             //DrawModel(table, Matrix.Identity, tableAbsoluteBoneTransforms);
             ExtinctionGame.SetState_DepthWrite();
             ExtinctionGame.SetState_NoCull();
-            ExtinctionGame.DrawModel(model, world);
+            //ExtinctionGame.DrawModel(model, world);
 
             // Draw the outline of the triangle under the cursor.
-            DrawPickedTriangle();
+            //DrawPickedTriangle();
 
-            //base.Draw();
+            base.Draw();
 
         }
 

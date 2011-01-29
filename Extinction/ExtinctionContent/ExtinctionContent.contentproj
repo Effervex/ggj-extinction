@@ -133,10 +133,15 @@
     <Compile Include="possum\possum.fbx">
       <Name>possum</Name>
       <Importer>FbxImporter</Importer>
-      <Processor>ModelProcessor</Processor>
+      <Processor>SkinnedModelPipeline</Processor>
     </Compile>
     <Compile Include="possum\possum_shader.fx">
       <Name>possum_shader</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+    </Compile>
+    <Compile Include="animated-mesh.fx">
+      <Name>animated-mesh</Name>
       <Importer>EffectImporter</Importer>
       <Processor>EffectProcessor</Processor>
     </Compile>
@@ -210,6 +215,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\SkinnedModelPipeline\SkinnedModelPipeline.csproj">
+      <Project>{4636C7E1-B845-4B83-B96D-64A11B8A4515}</Project>
+      <Name>SkinnedModelPipeline</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\TrianglePickingPipeline\TrianglePickingPipeline.csproj">
       <Project>{35D4955B-8D3A-492A-B76B-2306A50C44F8}</Project>
       <Name>TrianglePickingPipeline</Name>
