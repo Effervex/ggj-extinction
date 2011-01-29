@@ -38,7 +38,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\x86\Debug</OutputPath>
+    <OutputPath>bin\x86\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE;WINDOWS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -138,10 +138,6 @@
     <Content Include="GameThumbnail.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\TrianglePickingPipeline\TrianglePickingPipeline.csproj">
-      <Project>{35D4955B-8D3A-492A-B76B-2306A50C44F8}</Project>
-      <Name>TrianglePickingPipeline</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\TrianglePickingPipeline\TrianglePickingPipeline.csproj">
       <Project>{35D4955B-8D3A-492A-B76B-2306A50C44F8}</Project>
       <Name>TrianglePickingPipeline</Name>

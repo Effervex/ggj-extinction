@@ -28,8 +28,14 @@ namespace Extinction
             if (keysPressed != null)
                 foreach (Keys i in keysPressed)
                     if (i == k)
-                        return Keyboard.GetState().IsKeyUp(k);
+                    {
+                        Keys[] temp;
+                        temp = Keyboard.GetState().GetPressedKeys();
+                        foreach(Keys j in temp)
+                            if(j == k) return false;
 
+                        return true;
+                    }
             return false;
         }
 

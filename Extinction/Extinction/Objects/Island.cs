@@ -108,6 +108,8 @@ namespace Extinction.Objects
 
             // Draw the table.
             //DrawModel(table, Matrix.Identity, tableAbsoluteBoneTransforms);
+            ExtinctionGame.SetState_DepthWrite();
+            ExtinctionGame.SetState_NoCull();
             ExtinctionGame.DrawModel(model, world);
 
             // Draw the outline of the triangle under the cursor.

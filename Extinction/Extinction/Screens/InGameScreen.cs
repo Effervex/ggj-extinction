@@ -26,6 +26,7 @@ namespace Extinction.Screens
         Model modelIsland;
         Model modelGrass;
 
+        Tree tree;
         Dome dome;
         Island island;
         Grass grass;
@@ -51,6 +52,7 @@ namespace Extinction.Screens
             island = new Island();
             grass = new Grass();
             sphere = new Sphere();
+            tree = new Tree();
 
             tools = new List<ToolIcon>();
             tools.Add(new MagnifyingGlass());
@@ -77,6 +79,7 @@ namespace Extinction.Screens
             if (content == null)
                 content = new ContentManager(ScreenManager.Game.Services, "Content");
 
+            tree.Create();
             dome.Create(@"dome/dome_mesh");
             island.Create(@"island/island_mesh");
             grass.Create(@"foliage/grass_mesh");
@@ -113,13 +116,14 @@ namespace Extinction.Screens
             float rad = ExtinctionGame.Random() * 13f + 12f;
             p.p = world.Translation + Vector3.Transform(Vector3.Right * rad, Matrix.CreateRotationY(r));
             p.v = ExtinctionGame.RandomVector() * 0.1f;
+            
         }
 
         void UpdateCloud(ref Particle p, Matrix world)
         {
             //p.p += p.v;
-            p.t += 0.1f;
-
+            p.t += ExtinctionGame.GetTimeDelta();
+            p.aux.Z = (float)( Math.Sin(p.t) * 0.5f + 0.5f);
             if (p.t > 2f) p.alive = false;
          //   p.Position += 
         }
@@ -158,7 +162,7 @@ namespace Extinction.Screens
 
             base.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
             if (ExtinctionGame.IsKeyPressed(Keys.Q))
-                modelIsland = ExtinctionGame.LoadModel(@"island_mesh");
+                modelIsland = ExtinctionGame.LoadModel(@"island/island_mesh");
             if (ExtinctionGame.IsKeyPressed(Keys.T))
                 ExtinctionGame.ReloadTextures();
 
@@ -175,7 +179,7 @@ namespace Extinction.Screens
 
             
             float spin_decel = 0.1f;
-            Vector2 delta = ExtinctionGame.MouseDelta ;
+            Vector2 delta = ExtinctionGame.MouseDelta * 0.015f ;
             
 
 
@@ -186,16 +190,17 @@ namespace Extinction.Screens
             else
             {
 
-            } 
-            
-            spin_velocity.X = MathHelper.Clamp((spin_velocity.X + delta.X) * 0.998f, -1f, 1f) * 0.25f;
+            }
+
+            spin_velocity.X += delta.X * ExtinctionGame.GetTimeDelta();// MathHelper.Clamp((spin_velocity.X + delta.X) * 0.875f, -.051f, .051f);
             //spin_velocity.X *= 0.8f;
 
             float maxY = 1.5f;
             float minY = 0.5f;
-            
+
+            delta.Y *= 0.01f;
             spin_info.Y = MathHelper.Clamp(spin_info.Y - delta.Y, 0.5f, 1.5f);
-            spin_info.X += spin_velocity.X;
+            spin_info.X += spin_velocity.X * ExtinctionGame.GetTimeDelta();
 
             Console.WriteLine(spin_info);
             gameState.Update(gameTime);
@@ -251,14 +256,16 @@ namespace Extinction.Screens
             cameraPosition = Vector3.Transform(cameraPosition, Matrix.CreateRotationY(spin_info.X));
 
             ExtinctionGame.view = Matrix.CreateLookAt(cameraPosition, Vector3.Zero + Vector3.Up * 5f, Vector3.Up);
-            ExtinctionGame.projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(70f),
+            ExtinctionGame.projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(90f),
                 (float)ScreenManager.GraphicsDevice.Viewport.Width / (float)ScreenManager.GraphicsDevice.Viewport.Height, 1f, 500f);
             //  ScreenManager.GraphicsDevice.Textures[0]
             // TODO: Add your drawing code here
             dome.Draw();
             test.Draw(); 
             island.Draw();
-            sphere.Draw(); 
+            tree.Draw();
+            sphere.Draw();
+            grass.world = Matrix.CreateTranslation(4.5f, 4.5f, 4.5f);
             grass.Draw();
 
             
