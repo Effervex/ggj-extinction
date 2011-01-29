@@ -12,9 +12,12 @@ namespace Extinction
     {
         public static int NUM_LANES = 8;
         public static int NUM_ROWS = 10;
+        public static float TREE_BUFFER_PERCENT = 0.1f;
         Dictionary<Vector2, ToolEntity> placedTools;
 
         List<Enemy> enemies;
+
+        public static float islandRadius = 2;
 
         public GameState()
         {
@@ -52,6 +55,14 @@ namespace Extinction
             // Draw the tools
 
             // Draw the enemies
+        }
+
+        /**
+         * Gets the row.
+         */
+        internal static int GetRow(double distance)
+        {
+            return (int) ((1 - distance) / (islandRadius / NUM_ROWS));
         }
     }
 }
