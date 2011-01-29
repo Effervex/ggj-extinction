@@ -9,6 +9,11 @@ namespace Extinction.Objects
 {
     public class Grass : Entity
     {
+        public Grass()
+        {
+            filename = @"foliage/grass_mesh";
+        }
+
         public void Draw(List<Matrix> matrix)
         {
             this.world = Matrix.CreateTranslation(4f,5f,4f);

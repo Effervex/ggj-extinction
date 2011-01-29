@@ -2,43 +2,49 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Collections.ObjectModel;
+using System.Collections;
 
 namespace Extinction
 {
     class ProbabilityDistribution<T>
     {
-        Dictionary<T, double> elements;
+        private List<T> elements;
+        private List<double> probs;
 
         public ProbabilityDistribution()
         {
-            elements = new Dictionary<T, double>();
+            elements = new List<T>();
+            probs = new List<double>();
         }
 
         public void addItem(T element, double prob)
         {
-            elements.Add(element, prob);
+            elements.Add(element);
+            probs.Add(prob);
         }
 
         public void normalise()
         {
-            double sum = 0;
-            foreach (double value in elements.Values)
-                sum += value;
-
-            foreach (T element in elements.Keys)
-                elements[element] /= sum;
+            double sum = probs.Sum();
+            List<double> newProbs = new List<double>();
+            foreach (double prob in probs)
+                newProbs.Add(prob / sum);
+            probs = newProbs;
         }
 
         public T sample()
         {
             double randVal = ExtinctionGame.random.NextDouble();
             double sumVal = 0;
-            foreach (T element in elements.Keys)
+            List<T>.Enumerator eEnum = elements.GetEnumerator();
+            List<double>.Enumerator pEnum = probs.GetEnumerator();
+            for (int i = 0; i < elements.Count; i++)
             {
-                sumVal += elements[element];
+                eEnum.MoveNext();
+                pEnum.MoveNext();
+                sumVal += pEnum.Current;
                 if (randVal < sumVal)
-                    return element;
+                    return eEnum.Current;
             }
 
             return default(T);

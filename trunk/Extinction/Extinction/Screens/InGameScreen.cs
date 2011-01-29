@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Extinction.Objects;
+using System.Collections.ObjectModel;
 
 namespace Extinction.Screens
 {
@@ -35,7 +36,7 @@ namespace Extinction.Screens
 
         Texture2D selectedIcon;
 
-        List<ToolIcon> tools;
+        List<ToolIcon> toolIcons;
         ToolIcon selectedTool = null;
         BoundingSphere hoveringPlacementPoint;
         bool hoveringPointFound = false;
@@ -52,18 +53,20 @@ namespace Extinction.Screens
 
         public void Initialise()
         {
+            List<Enemy> enemies = new List<Enemy>();
             dome = new Dome();
             island = new Island();
             grass = new Grass();
             possum = new Possum();
+            enemies.Add(possum);
             tree = new Tree();
             crystal = new Crystal();
 
-            tools = new List<ToolIcon>();
-            tools.Add(new CrystalIcon(crystal, "iconz/iconz-crystals"));
-            tools.Add(new CrystalIcon(crystal, "iconz/iconz-honeydrop"));
+            toolIcons = new List<ToolIcon>();
+            toolIcons.Add(new CrystalIcon(crystal, "iconz/iconz-crystals"));
+            toolIcons.Add(new CrystalIcon(crystal, "iconz/iconz-honeydrop"));
 
-            gameState = new GameState();
+            gameState = new GameState(enemies);
 
         }
         /// <summary>
@@ -85,24 +88,24 @@ namespace Extinction.Screens
                 content = new ContentManager(ScreenManager.Game.Services, "Content");
 
             tree.Create();
-            dome.Create(@"dome/dome_mesh");
-            island.Create(@"island/island_mesh");
-            grass.Create(@"foliage/grass_mesh");
-            crystal.Create(@"crystal/crystals");
-            possum.Create(@"possum/possum", content);
+            dome.Create();
+            island.Create();
+            grass.Create();
+            crystal.Create();
+            possum.Create(content);
             possum.isAnimated = true;
             possum.world = Matrix.CreateTranslation(new Vector3(2, 7, 2));
             possum.queueAnimation("Attacking", false);
 
 
-            selectedIcon = content.Load<Texture2D>("SelectedIcon");
+            selectedIcon = content.Load<Texture2D>("iconz/iconz-select");
 
             //cursor = content.Load<Texture2D>("Cursor");
             ExtinctionGame.cursor = new Cursor(ExtinctionGame.instance, content);
 
             gameState.LoadContent(island.model, island.world);
 
-            foreach (ToolIcon tool in tools)
+            foreach (ToolIcon tool in toolIcons)
             {
                 tool.LoadContent(content);
             }
@@ -177,7 +180,7 @@ namespace Extinction.Screens
             if (ExtinctionGame.IsKeyPressed(Keys.T))
                 ExtinctionGame.ReloadTextures();
 
-            foreach (ToolIcon tool in tools)
+            foreach (ToolIcon tool in toolIcons)
             {
                 tool.Update(gameTime);
             }
@@ -185,6 +188,8 @@ namespace Extinction.Screens
             // update moving objects
             island.Update(gameTime);
             possum.Update(gameTime);
+
+            gameState.Update(gameTime);
 
 
             // Check the mouse in regards to the tool icons
@@ -268,10 +273,10 @@ namespace Extinction.Screens
                 if (Mouse.GetState().X < EDGE_ICON_BUFFER + ToolIcon.ICON_WIDTH)
                 {
                     int y = EDGE_ICON_BUFFER;
-                    foreach (ToolIcon tool in tools)
+                    foreach (ToolIcon tool in toolIcons)
                     {
                         if (Mouse.GetState().Y >= y && Mouse.GetState().Y < y + tool.iconHeight())
-                            if (tool.clickedIcon())
+                            if (tool.readyForUse())
                                 selectedTool = tool;
                         y += tool.iconHeight() + ICON_TO_ICON_BUFFER;
                     }
@@ -283,7 +288,9 @@ namespace Extinction.Screens
                     // If nothing is already in the position
                     if (!gameState.placedTools.ContainsKey(gridPoint))
                     {
-                        gameState.placedTools[gridPoint] = (ToolEntity) selectedTool.model.NewModel(hoveringPlacementPoint.Center);
+                        ToolEntity newTool = (ToolEntity) selectedTool.model.NewEntity(hoveringPlacementPoint.Center);
+                        newTool.location = gridPoint;
+                        gameState.placedTools[gridPoint] = newTool;
                         selectedTool.placedTool();
                         selectedTool = null;
                         hoveringPointFound = false;
@@ -323,11 +330,7 @@ namespace Extinction.Screens
             tree.Draw();
             grass.world = Matrix.CreateTranslation(4.5f, 4.5f, 4.5f);
 
-            // Draw the active tools
-            foreach (ToolEntity tool in gameState.placedTools.Values)
-            {
-                tool.Draw();
-            }
+            gameState.Draw(gameTime);
 
             // If we have a hovering model, draw that (with spinning and throbbing)
 
@@ -342,14 +345,15 @@ namespace Extinction.Screens
 
             int y = EDGE_ICON_BUFFER;
             ScreenManager.SpriteBatch.Begin();
-            foreach (ToolIcon tool in tools)
+            foreach (ToolIcon tool in toolIcons)
             {
+                tool.Draw(gameTime, ScreenManager.SpriteBatch, new Vector2(EDGE_ICON_BUFFER, y));
                 if (tool == selectedTool)
                 {
                     Rectangle selectionRect = new Rectangle(EDGE_ICON_BUFFER - SELECTED_ICON_BUFFER, y - SELECTED_ICON_BUFFER, tool.iconTexture.Width + SELECTED_ICON_BUFFER * 2, tool.iconTexture.Height + SELECTED_ICON_BUFFER * 2);
                     ScreenManager.SpriteBatch.Draw(selectedIcon, selectionRect, Color.White);
                 }
-                tool.Draw(gameTime, ScreenManager.SpriteBatch, new Vector2(EDGE_ICON_BUFFER, y));
+                
                 y += tool.iconHeight() + ICON_TO_ICON_BUFFER;
             }
             //ScreenManager.SpriteBatch.Draw(cursor, new Vector2(Mouse.GetState().X, Mouse.GetState().Y), Color.White);

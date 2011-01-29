@@ -47,7 +47,7 @@ namespace Extinction
             }
         }
 
-        public bool clickedIcon()
+        public bool readyForUse()
         {
             if (cooldownLeft == 0)
             {
