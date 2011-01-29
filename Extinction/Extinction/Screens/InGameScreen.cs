@@ -22,7 +22,6 @@ namespace Extinction.Screens
         ContentManager content;
 
         Vector3 cameraPosition;
-        float rotation;
 
         Model modelIsland;
         Model modelGrass;
@@ -98,11 +97,63 @@ namespace Extinction.Screens
             //modelGrass = ExtinctionGame.LoadModel(@"foliage/grass_mesh");
         }
 
+
+        Vector2 spin_velocity = Vector2.Zero;
+        Vector2 spin_info = Vector2.Zero;
+        ParticleSystem test;
+
+        void CreateCloud(ref Particle p, Matrix world)
+        {
+            float r = ExtinctionGame.Random() * MathHelper.Pi * 2f;
+            float rad = ExtinctionGame.Random() * 13f + 12f;
+            p.p = world.Translation + Vector3.Transform(Vector3.Right * rad, Matrix.CreateRotationY(r));
+            p.v = ExtinctionGame.RandomVector() * 0.1f;
+        }
+
+        void UpdateCloud(ref Particle p, Matrix world)
+        {
+            //p.p += p.v;
+            p.t += 0.1f;
+
+            if (p.t > 2f) p.alive = false;
+         //   p.Position += 
+        }
+
+        void UpdateClouds(ParticleSystem s)
+        {
+            if (s.particles.Count < 10)
+            {
+                s.spawnTime = 1f;
+                s.AddPartcile(s.world.Translation, 1);
+                s.spawnTime = ExtinctionGame.Random() + 1f;
+                s.AddPartcile(s.world.Translation, 1);
+                s.spawnTime = ExtinctionGame.Random() + 1f;
+                s.AddPartcile(s.world.Translation, 1);
+                s.spawnTime = ExtinctionGame.Random() + 1f;
+                s.AddPartcile(s.world.Translation, 1);
+                s.spawnTime = ExtinctionGame.Random() + 1f;
+            }
+            else
+            {
+                s.spawnTime -= ExtinctionGame.GetTimeDelta();
+            }
+        }
+
         public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
         {
+            if (test == null)
+            {
+                test = new ParticleSystem();
+                test.Create("cloud", UpdateCloud, CreateCloud, UpdateClouds);
+                test.AddPartcile(Vector3.Zero, 1);
+            }
+            test.Update(gameTime);
+
             base.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
             if (ExtinctionGame.IsKeyPressed(Keys.Q))
                 modelIsland = ExtinctionGame.LoadModel(@"island_mesh");
+            if (ExtinctionGame.IsKeyPressed(Keys.T))
+                ExtinctionGame.ReloadTextures();
 
             foreach (ToolIcon tool in tools)
             {
@@ -112,8 +163,36 @@ namespace Extinction.Screens
             // Check the mouse in regards to the tool icons
             checkMouseClick();
 
-            updateView();
+            
+            float spin_decel = 0.1f;
+            Vector2 delta = ExtinctionGame.MouseDelta * 0.01251f;
 
+
+
+            if (Math.Abs( delta.X) < 0.25)
+            {
+                spin_velocity.X *= 0.8f;
+            }
+            else
+            {
+                spin_velocity.X = MathHelper.Clamp(spin_velocity.X + delta.X, -1f, 1f) * 0.25f;
+            }
+
+            spin_info.Y -= delta.Y;
+            float maxY = 1.5f;
+            float minY = 0.5f;
+
+
+
+            spin_info.Y = MathHelper.Clamp(spin_info.Y, 0.5f, 1.5f);
+            spin_info.X += spin_velocity.X;
+
+        //    if (Keyboard.GetState().IsKeyDown(Keys.D))
+            //spin_info += spin_velocity * ExtinctionGame.GetTimeDelta();
+         //   else if (Keyboard.GetState().IsKeyDown(Keys.A))
+        //        rotation -= RATE_OF_ROTATION * ExtinctionGame.GetTimeDelta();
+
+            Console.WriteLine(spin_info);
             gameState.Update(gameTime);
 
             prevMouseState = Mouse.GetState();
@@ -154,14 +233,6 @@ namespace Extinction.Screens
             }
         }
 
-        private void updateView()
-        {
-            if (Keyboard.GetState().IsKeyDown(Keys.D))
-                rotation += RATE_OF_ROTATION;
-            else if (Keyboard.GetState().IsKeyDown(Keys.A))
-                rotation -= RATE_OF_ROTATION;
-        }
-
         /// <summary>
         /// Draws the gameplay screen.
         /// </summary>
@@ -171,17 +242,20 @@ namespace Extinction.Screens
             ScreenManager.GraphicsDevice.Clear(ClearOptions.Target,
                                                Color.CornflowerBlue, 0, 0);
 
-            cameraPosition = new Vector3(5, 5, 5) * 1.3f;
-            cameraPosition = Vector3.Transform(cameraPosition, Matrix.CreateRotationY(rotation));
+            cameraPosition = new Vector3(5, 5, 5) * (1.3f + spin_info.Y);
+            cameraPosition = Vector3.Transform(cameraPosition, Matrix.CreateRotationY(spin_info.X));
 
             ExtinctionGame.view = Matrix.CreateLookAt(cameraPosition, Vector3.Zero + Vector3.Up * 5f, Vector3.Up);
             ExtinctionGame.projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(70f),
-                (float)ScreenManager.GraphicsDevice.Viewport.Width / (float)ScreenManager.GraphicsDevice.Viewport.Height, 1f, 100f);
+                (float)ScreenManager.GraphicsDevice.Viewport.Width / (float)ScreenManager.GraphicsDevice.Viewport.Height, 1f, 500f);
             //  ScreenManager.GraphicsDevice.Textures[0]
             // TODO: Add your drawing code here
             dome.Draw();
+            test.Draw(); 
             island.Draw();
             grass.Draw();
+
+            
 
             if (ScreenManager.GraphicsDevice.Textures[0] == null)
             {

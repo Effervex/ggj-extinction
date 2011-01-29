@@ -9,7 +9,7 @@ namespace Extinction.Objects
 {
     public class Grass : Entity
     {
-        public override void Draw()
+        public void Draw(List<Matrix> matrix)
         {
             this.world = Matrix.CreateTranslation(4.3f,4.3f,4.3f);
 
@@ -19,8 +19,10 @@ namespace Extinction.Objects
 
             ModelDataSet data = (ModelDataSet)model.Tag;
             data.shader.Parameters["Time"].SetValue((float)ExtinctionGame.instance.getGameTime().TotalGameTime.TotalMilliseconds / 1000f);
-            ExtinctionGame.DrawModel(model, Matrix.Identity);
-            base.Draw();
+            foreach(Matrix m in matrix) {
+                //ExtinctionGame.DrawModel(model, m);
+                base.Draw();
+            }
 
             ExtinctionGame.SetState_Opaque();
             ExtinctionGame.SetState_Cull();

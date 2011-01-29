@@ -40,7 +40,10 @@ namespace Extinction
         protected override void Update(GameTime gameTime)
         {
             _gametime = gameTime;
+            dt = _gametime.ElapsedGameTime.Milliseconds / 1000f;
+            UpdateInput();
             screenManager.Update(gameTime);
+
         }
 
         protected override void Draw(GameTime gameTime)

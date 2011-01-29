@@ -9,5 +9,11 @@ namespace Extinction.Objects
 {
     public class Island : Entity
     {
+        public override void Draw()
+        {
+            ExtinctionGame.SetState_DepthWrite();
+            ExtinctionGame.SetState_Opaque();
+            base.Draw();
+        }
     }
 }

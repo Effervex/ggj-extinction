@@ -22,6 +22,23 @@ namespace Extinction
         public static ExtinctionGame instance;
         public static Matrix view = Matrix.Identity;
         public static Matrix projection = Matrix.Identity;
+        public static float dt = 0f;
+        public static Random random = new Random();
+
+        public static float GetTimeDelta()
+        {
+            return dt;
+        }
+
+        public static float Random()
+        {
+            return (float)random.NextDouble();
+        }
+
+        public static Vector3 RandomVector()
+        {
+            return new Vector3((float)random.NextDouble() - .5f, (float)random.NextDouble() - .5f, (float)random.NextDouble() - .5f) * 2f;
+        }
 
         private static Dictionary<string, Model> models = new Dictionary<string, Model>();
         private static Dictionary<string, Effect> effects = new Dictionary<string, Effect>();
@@ -64,6 +81,8 @@ namespace Extinction
         {
             ExtinctionGame.instance.GraphicsDevice.BlendState = BlendState.Opaque;
         }
+
+        
 
         private class ExtShader : Effect, IEffectMatrices
         {
@@ -164,6 +183,17 @@ namespace Extinction
             catch (Exception e)
             {
                 return errorResult;
+            }
+        }
+
+        public static void ReloadTextures(){
+
+            int n = textures.Count;
+            while (n > 0)
+            {
+                n--;
+                string filename = textures.Keys.ElementAt(n);
+                LoadTexture(filename);
             }
         }
 
