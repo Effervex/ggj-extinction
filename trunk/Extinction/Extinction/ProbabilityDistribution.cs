@@ -41,7 +41,7 @@ namespace Extinction
                     return element;
             }
 
-            return elements.
+            return default(T);
         }
     }
 }
