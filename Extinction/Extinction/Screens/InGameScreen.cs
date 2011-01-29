@@ -90,6 +90,7 @@ namespace Extinction.Screens
             //cursor = content.Load<Texture2D>("Cursor");
             ExtinctionGame.instance.cursor = new Cursor(ExtinctionGame.instance, content);
 
+            gameState.LoadContent(island.model, island.world);
 
             foreach (ToolIcon tool in tools)
             {
@@ -178,8 +179,8 @@ namespace Extinction.Screens
             checkMouseClick();
 
             
-            float spin_decel = 0.1f;
-            Vector2 delta = ExtinctionGame.MouseDelta * 0.015f ;
+            /*float spin_decel = 0.1f;
+            Vector2 delta = ExtinctionGame.MouseDelta * 0.15f ;
             
 
 
@@ -205,7 +206,20 @@ namespace Extinction.Screens
             Console.WriteLine(spin_info);
             gameState.Update(gameTime);
             Console.WriteLine(spin_velocity.X);
-            prevMouseState = Mouse.GetState();
+            prevMouseState = Mouse.GetState();*/
+
+            spin_velocity *= 0.8f; 
+            if (ExtinctionGame.IsKeyPressed(Keys.A))
+                spin_velocity.X -= 0.01f;
+            else if (ExtinctionGame.IsKeyPressed(Keys.D))
+                spin_velocity.X += 0.01f;
+            if (ExtinctionGame.IsKeyPressed(Keys.W))
+                spin_velocity.Y -= 0.01f;
+            else if (ExtinctionGame.IsKeyPressed(Keys.S))
+                spin_velocity.Y += 0.01f;
+
+            spin_info += spin_velocity;
+            spin_info.Y = MathHelper.Clamp(spin_info.Y, 0, 0.5f);
         }
 
         /// <summary>
@@ -252,7 +266,7 @@ namespace Extinction.Screens
             ScreenManager.GraphicsDevice.Clear(ClearOptions.Target,
                                                Color.CornflowerBlue, 0, 0);
 
-            cameraPosition = new Vector3(5, 5, 5) * (1.3f + spin_info.Y);
+            cameraPosition = new Vector3(5, 8, 5) * (1.3f + spin_info.Y);
             cameraPosition = Vector3.Transform(cameraPosition, Matrix.CreateRotationY(spin_info.X));
 
             ExtinctionGame.view = Matrix.CreateLookAt(cameraPosition, Vector3.Zero + Vector3.Up * 5f, Vector3.Up);
@@ -264,9 +278,17 @@ namespace Extinction.Screens
             test.Draw(); 
             island.Draw();
             tree.Draw();
-            sphere.Draw();
             grass.world = Matrix.CreateTranslation(4.5f, 4.5f, 4.5f);
+            
+            for (int lane = 0; lane < GameState.NUM_LANES; lane++)
+            {
+                for (int row = 0; row <= GameState.NUM_ROWS; row++)
+                {
+                    sphere.Draw(gameState.pathPoints[lane,row]);
+                }
+            }
             grass.Draw();
+            
 
             
 

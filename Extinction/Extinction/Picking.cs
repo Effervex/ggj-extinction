@@ -200,6 +200,5 @@ namespace Extinction
 
             result = rayDistance;
         }
-
     }
 }

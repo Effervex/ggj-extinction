@@ -11,8 +11,8 @@ namespace Extinction.Objects
         public int health;
         public int currentHealth;
         public int damage;
-        public int rateOfAttack;
-        public int attackDelay;
+        public float rateOfAttack;
+        public float attackDelay;
         public Vector2 location;
 
         public CombatEntity()
@@ -23,6 +23,13 @@ namespace Extinction.Objects
         public virtual void Initialise()
         {
             currentHealth = health;
+        }
+
+        public void SetParameters(int health, int damage, float rateOfAttack)
+        {
+            this.health = health;
+            this.damage = damage;
+            this.rateOfAttack = rateOfAttack;
         }
 
         internal void takeDamage(int damage)
@@ -37,7 +44,7 @@ namespace Extinction.Objects
         {
             // Reduce the attack delay
             if (attackDelay > 0)
-                attackDelay -= gameTime.ElapsedGameTime.Milliseconds;
+                attackDelay -= ExtinctionGame.dt;
 
             // Kill if no health left
             if (currentHealth <= 0)
@@ -45,11 +52,10 @@ namespace Extinction.Objects
             return false;
         }
 
-        public Vector2 GetCurrentLocation()
+        public override void Draw()
         {
-            float inverseDist = location.Y;
-            double rotation = (location.X * 2.0 / GameState.NUM_LANES) * Math.PI;
-            return new Vector2((float)(inverseDist * Math.Cos(rotation)), (float)(inverseDist * Math.Sin(rotation)));
+            base.Draw();
+            // TODO Spin the model
         }
     }
 }

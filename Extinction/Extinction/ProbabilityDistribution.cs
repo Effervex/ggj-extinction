@@ -6,7 +6,7 @@ using System.Collections.ObjectModel;
 
 namespace Extinction
 {
-    class ProbabilityDistribution<T> : Collection<T>
+    class ProbabilityDistribution<T>
     {
         Dictionary<T, double> elements;
 
@@ -32,7 +32,7 @@ namespace Extinction
 
         public T sample()
         {
-            double randVal = 0;
+            double randVal = ExtinctionGame.random.NextDouble();
             double sumVal = 0;
             foreach (T element in elements.Keys)
             {
