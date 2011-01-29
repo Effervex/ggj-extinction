@@ -8,6 +8,7 @@ float4 PixelShaderFunction(float4 position : POSITION0,
 	float4 samp = tex2D(color, uv);
 
 	samp.w *= alpha;
+	samp = 0.0f;
 	return samp;
  }
 
@@ -41,6 +42,7 @@ void VertexShaderFunction(float4 position : POSITION0,
     opos= mul(viewPosition, Projection);
 	oaux = normal;
 	otexCoord = texCoord * 0.5 + 0.5; 
+	otexCoord.y = 1 - otexCoord.y;
 }
 
 technique Techniq
