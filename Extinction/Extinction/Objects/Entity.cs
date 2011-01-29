@@ -11,9 +11,12 @@ namespace Extinction.Objects
     {
         public Model model;
         public Matrix world = Matrix.Identity;
+        public Matrix transformation = Matrix.Identity;
+        public String filename;
 
         virtual public bool Create(string filename)
         {
+            this.filename = filename;
             model = ExtinctionGame.LoadModel(filename);
             return (model != null);
         }
@@ -26,7 +29,7 @@ namespace Extinction.Objects
                 (dict["shader"] as Effect).Parameters["Time"].SetValue(
                     ExtinctionGame.GetTimeTotal());
 
-                ExtinctionGame.DrawModel(model, world);
+                ExtinctionGame.DrawModel(model, Matrix.Multiply(transformation, world));
             }
         }
 

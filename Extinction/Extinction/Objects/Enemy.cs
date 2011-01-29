@@ -12,26 +12,20 @@ namespace Extinction.Objects
         public float speed;
         public int laneNum;
 
-        public override void Initialise()
+        public Enemy(int health, int damage, float rateOfAttack, float speed, double spawnProb)
+            : base(health, damage, rateOfAttack)
         {
-            base.Initialise();
-            location.Y = GameState.NUM_ROWS;
-        }
-
-        public virtual void SetParameters(int health, int damage, float rateOfAttack, float speed, double spawnProb)
-        {
-            base.SetParameters(health, damage, rateOfAttack);
             this.speed = speed;
             this.spawnProb = spawnProb;
+            location.Y = GameState.NUM_ROWS;
         }
-
 
         public void Update(GameTime gameTime, Dictionary<Vector2, ToolEntity> placedTools)
         {
             base.Update(gameTime);
 
             // The enemy has encountered a tool
-            Vector2 enemyLoc = new Vector2((int) location.X, (int) location.Y);
+            Vector2 enemyLoc = new Vector2((int)location.X, (int)location.Y);
             if (placedTools.ContainsKey(enemyLoc))
             {
                 if (attackDelay <= 0)

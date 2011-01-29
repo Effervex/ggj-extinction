@@ -18,9 +18,12 @@ namespace Extinction.Objects
 
         }
 
-        public void Draw(BoundingSphere bs)
+        public void Draw(GameTime gameTime, BoundingSphere bs)
         {
-            this.world = Matrix.CreateScale(bs.Radius/ 1.5f);
+            this.world = Matrix.Identity;
+            float time = ExtinctionGame.GetTimeTotal() * 3;
+            this.world = Matrix.Multiply(this.world, Matrix.CreateScale(bs.Radius / 4 + (float) Math.Sin(time) * 0.04f));
+            this.world = Matrix.Multiply(this.world, Matrix.CreateRotationY(time));
             this.world = Matrix.Multiply(this.world, Matrix.CreateTranslation(bs.Center));
             
 

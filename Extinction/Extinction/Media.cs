@@ -26,7 +26,7 @@ namespace Extinction
         public static float t = 0f;
         public static Random random = new Random();
 
-        public Cursor cursor;
+        public static Cursor cursor;
 
 
         public static float GetTimeDelta()

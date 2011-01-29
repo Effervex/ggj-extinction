@@ -7,6 +7,11 @@ namespace Extinction.Objects
 {
     class Tree : CombatEntity
     {
+        public Tree()
+            : base(500, 0, 0)
+        {
+        }
+
         public bool Create()
         {
             return base.Create(@"tree/tree_mesh");
@@ -14,6 +19,11 @@ namespace Extinction.Objects
         public override void Draw()
         {
             base.Draw();
+        }
+
+        public override CombatEntity NewModel()
+        {
+            return new Tree();
         }
     }
 }

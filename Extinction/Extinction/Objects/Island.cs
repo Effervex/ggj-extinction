@@ -49,7 +49,7 @@ namespace Extinction.Objects
         {
             // Look up a collision ray based on the current cursor position. See the
             // Picking Sample documentation for a detailed explanation of this.
-            Ray cursorRay = ExtinctionGame.instance.cursor.CalculateCursorRay(ExtinctionGame.projection, ExtinctionGame.view);
+            Ray cursorRay = ExtinctionGame.cursor.CalculateCursorRay(ExtinctionGame.projection, ExtinctionGame.view);
 
             // Clear the previous picking results.
             insideBoundingSpheres.Clear();
