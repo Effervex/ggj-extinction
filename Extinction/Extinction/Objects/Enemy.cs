@@ -37,6 +37,12 @@ namespace Extinction.Objects
                 // Move the enemy forward
                 location.Y -= speed;
             }
+            else if (location.Y <= 0)
+            {
+                location.Y = 0;
+                // This creature is at the tree. Attack the tree!
+                GameState.tree.takeDamage(damage);
+            }
         }
     }
 }
