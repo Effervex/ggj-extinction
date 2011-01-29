@@ -89,7 +89,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Picking.cs" />
+    <Compile Include="Picking.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TrianglePickingProcessor.cs" />
   </ItemGroup>

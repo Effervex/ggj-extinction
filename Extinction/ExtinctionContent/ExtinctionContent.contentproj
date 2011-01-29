@@ -45,7 +45,7 @@
     <Compile Include="island\island_mesh.fbx">
       <Name>island_mesh</Name>
       <Importer>FbxImporter</Importer>
-      <Processor>ModelProcessor</Processor>
+      <Processor>TrianglePickingProcessor</Processor>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
   </ItemGroup>
@@ -120,6 +120,26 @@
       <Importer>EffectImporter</Importer>
       <Processor>EffectProcessor</Processor>
     </Compile>
+    <Compile Include="possum\possum-modelonly.fbx">
+      <Name>possum-modelonly</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="possum\possum-modelonly_shader.fx">
+      <Name>possum-modelonly_shader</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+    </Compile>
+    <Compile Include="possum\possum.fbx">
+      <Name>possum</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="possum\possum_shader.fx">
+      <Name>possum_shader</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+    </Compile>
     <None Include="shader_shared.fx">
       <Name>shader_shared</Name>
       <Importer>EffectImporter</Importer>
@@ -166,6 +186,24 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="possum\possum-modelonly_color.png">
+      <Name>possum-modelonly_color</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="possum\possum_color.png">
+      <Name>possum_color</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\TrianglePickingPipeline\TrianglePickingPipeline.csproj">
+      <Project>{35D4955B-8D3A-492A-B76B-2306A50C44F8}</Project>
+      <Name>TrianglePickingPipeline</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!--  To modify your build process, add your task inside one of the targets below and uncomment it. 
