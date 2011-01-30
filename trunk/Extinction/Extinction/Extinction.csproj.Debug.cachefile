@@ -1,21 +1,25 @@
 Content\island\island_mesh.xnb
 Content\foliage\grass_mesh.xnb
 Content\dome\dome_mesh.xnb
-Content\possum\possum-modelonly.xnb
-Content\possum\possum.xnb
 Content\crystal\crystals.xnb
 Content\foliage\foliage_mesh.xnb
+Content\beetle\beetle.xnb
+Content\possum\possum.xnb
+Content\possum\possum_attacking.xnb
+Content\possum\possum_dying.xnb
+Content\possum\possum_running.xnb
 Content\tree\tree_mesh.xnb
 Content\Amazon.xnb
+Content\AmazonSmall.xnb
 Content\blank.xnb
 Content\island\island_mesh_color.xnb
 Content\foliage\grass_mesh_color.xnb
 Content\dome\dome_mesh_color.xnb
+Content\beetle\beetle_color.xnb
 Content\Cursor.xnb
 Content\Icon.xnb
 Content\SelectedIcon.xnb
 Content\Transparent.xnb
-Content\possum\possum-modelonly_color.xnb
 Content\possum\possum_color.xnb
 Content\tree\tree_mesh_colour.xnb
 Content\iconz\iconz-crystals.xnb
@@ -27,30 +31,36 @@ Content\crystal\crystals_color.xnb
 Content\iconz\iconz-select.xnb
 Content\foliage\foliage_mesh_color.xnb
 Content\tree\tree_mesh_color.xnb
+Content\particle\particle_cloud_color.xnb
+Content\particle\particle_magic_color.xnb
+Content\title_screen.xnb
 Content\island\island_mesh_shader.xnb
 Content\foliage\grass_mesh_shader.xnb
 Content\dome\dome_mesh_shader.xnb
-Content\possum\possum-modelonly_shader.xnb
 Content\possum\possum_shader.xnb
 Content\animated-mesh.xnb
 Content\crystal\crystals_shader.xnb
 Content\foliage\foliage_mesh_shader.xnb
+Content\particle\particle_cloud_shader.xnb
+Content\particle\particle_magic_shader.xnb
+Content\beetle\beetle_shader.xnb
 Content\tree\tree_mesh_shader.xnb
 Content\sphere0-5.xnb
+Content\island\island_mesh.fbm\island_0.xnb
 Content\foliage\grass_mesh_color_0.xnb
 Content\dome\dome_mesh_color_0.xnb
-Content\possum\possum-modelonly_color_0.xnb
 Content\crystal\crystals_color_0.xnb
 Content\foliage\foliage_mesh_color_0.xnb
 Content\tree\tree_mesh_color_0.xnb
-Content\particle\particle_cloud_color.xnb
-Content\particle\particle_cloud_shader.xnb
-Content\island\island_mesh.fbm\island_0.xnb
-Content\particle\particle_magic_color.xnb
-Content\particle\particle_magic_shader.xnb
-Content\AmazonSmall.xnb
-Content\title_screen.xnb
 Content\sound\ambient_01.xnb
+Content\sound\honey 01.xnb
+Content\sound\ice 01.xnb
+Content\sound\possum 01.xnb
+Content\sound\rock 01.xnb
+Content\sound\shrub 01.xnb
+Content\sound\title screen 01.xnb
+Content\sound\walnut fall and crack 01.xnb
+Content\sound\zap 01.xnb
 Content\island\island_mesh.fbx
 Content\island\island_mesh_color.png
 Content\foliage\grass_mesh.fbx

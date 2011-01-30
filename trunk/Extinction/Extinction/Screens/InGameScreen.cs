@@ -62,7 +62,7 @@ namespace Extinction.Screens
         public static Dome dome;
         public static Island island;
         public static Grass grass;
-        Possum possum;
+        public static Possum possum;
 
         Crystal crystal;
         Scrub scrub;
@@ -80,7 +80,7 @@ namespace Extinction.Screens
 
         MouseState prevMouseState;
 
-        GameState gameState;
+        public static GameState gameState;
 
 
         public static List<Matrix> foliageList;
@@ -186,12 +186,17 @@ namespace Extinction.Screens
             iceCubes.Create();
             honey.Create();
 
-            possum.Create(content);
+            possum.Create(@"possum/possum");
             possum.isAnimated = true;
             possum.world = Matrix.CreateTranslation(new Vector3(2, 7, 2));
-            possum.queueAnimation("Attacking", false);
+            possum.SetState(Enemy.EnemyState.RUNNING);
 
-
+            /*
+            beetle.Create();
+            beetle.isAnimated = true;
+            beetle.world = Matrix.CreateTranslation(new Vector3(5, 7, 5));
+            beetle.queueAnimation(false);
+            */
             selectedIcon = content.Load<Texture2D>("iconz/iconz-select");
 
             //cursor = content.Load<Texture2D>("Cursor");
@@ -238,7 +243,6 @@ namespace Extinction.Screens
 
             // update moving objects
             island.Update(gameTime);
-            possum.Update(gameTime);
 
             gameState.Update(gameTime);
 
@@ -382,7 +386,7 @@ namespace Extinction.Screens
             dome.Draw();
             //test.Draw();
             island.Draw();
-            //possum.Draw();
+            possum.Draw();
             tree.Draw();
             //grass.world = Matrix.CreateTranslation(4.5f, 4.5f, 4.5f);
             

@@ -263,12 +263,19 @@ namespace Extinction
                 {
                     newModel.Tag = new Dictionary<string, object>();
                 }
-                ((Dictionary<string, object>)newModel.Tag)["color"] = LoadTexture(filename + "_color");
-                ((Dictionary<string, object>)newModel.Tag)["mask"] = LoadTexture(filename + "_mask");
-                ((Dictionary<string, object>)newModel.Tag)["normal"] = LoadTexture(filename + "_normal");
+                // remove animation names from filename
+                String modelfilename = (String)filename.Clone();
+                if (filename.EndsWith("_dying")) 
+                    modelfilename = modelfilename.Remove(filename.Length - 6);
+                if (filename.EndsWith("_attacking")) modelfilename = modelfilename.Remove(filename.Length - 10);
+                if (filename.EndsWith("_running")) modelfilename = modelfilename.Remove(filename.Length - 8);
+                
+                ((Dictionary<string, object>)newModel.Tag)["color"] = LoadTexture(modelfilename + "_color");
+                ((Dictionary<string, object>)newModel.Tag)["mask"] = LoadTexture(modelfilename + "_mask");
+                ((Dictionary<string, object>)newModel.Tag)["normal"] = LoadTexture(modelfilename + "_normal");
 
 
-                Effect effect = LoadShader(filename + "_shader");
+                Effect effect = LoadShader(modelfilename + "_shader");
                 if(effect == null)
                     throw new Exception("Failed to load new effect:" + filename + "_shader");
 
