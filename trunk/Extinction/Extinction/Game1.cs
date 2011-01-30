@@ -40,7 +40,7 @@ namespace Extinction
         }
 
         static Dictionary<string, SoundEffect> sounds = new Dictionary<string,SoundEffect>();
-        
+        static List<SoundEffectInstance> soundInstances = new List<SoundEffectInstance>();
         public static void PlaySound(string filename, bool loop) {
 
             SoundEffect sound;
@@ -60,9 +60,13 @@ namespace Extinction
             }
 
             SoundEffectInstance instance = sound.CreateInstance();
-            
-            instance.Play();
+
+            instance.Volume = 1;
             instance.IsLooped = loop;
+            instance.Play();
+
+            soundInstances.Add(instance);
+            SoundState soundsz = instance.State;
         }
 
         private bool InitGraphicsMode(int iWidth, int iHeight, bool bFullScreen)
@@ -108,7 +112,12 @@ namespace Extinction
         {
             if (ExtinctionGame.IsKeyPressed(Keys.T))
                 ExtinctionGame.ReloadTextures();
-            
+
+            soundInstances.RemoveAll(delegate(SoundEffectInstance s)
+            {
+                return (s.State != SoundState.Playing);
+            });
+
             _gametime = gameTime;
             dt = _gametime.ElapsedGameTime.Milliseconds / 1000f;
             t += dt;
