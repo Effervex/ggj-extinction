@@ -158,6 +158,7 @@ namespace Extinction.Objects
 
         public override void Draw()
         {
+            ExtinctionGame.SetState_NoCull();
             if (isAnimated)
             {
 

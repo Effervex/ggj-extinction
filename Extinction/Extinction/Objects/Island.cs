@@ -10,6 +10,9 @@ namespace Extinction.Objects
     public class Island : Entity
     {
 
+        ParticleSystem CloudSystem;
+
+
         // To keep things efficient, the picking works by first applying a bounding
         // sphere test, and then only bothering to test each individual triangle
         // if the ray intersects the bounding sphere. This allows us to trivially
@@ -43,6 +46,14 @@ namespace Extinction.Objects
         public Island()
         {
             filename = @"island/island_mesh";
+        }
+
+        public override bool Create()
+        {
+            CloudSystem = ParticleSystem.GetParticles_IslandClouds();
+            CloudSystem.AddParticle(Vector3.Zero, 1);
+
+            return base.Create();
         }
 
 
@@ -103,19 +114,29 @@ namespace Extinction.Objects
 
         }
 
+        public override bool Update(GameTime time)
+        {
+            bool result = base.Update(time);
+            CloudSystem.Update(time);
+            //UpdatePicking();
+            return result;
+        }
 
         public override void Draw()
         {
 
             // Draw the table.
             //DrawModel(table, Matrix.Identity, tableAbsoluteBoneTransforms);
-            ExtinctionGame.SetState_DepthWrite();
-            ExtinctionGame.SetState_NoCull();
+            
             //ExtinctionGame.DrawModel(model, world);
 
             // Draw the outline of the triangle under the cursor.
             //DrawPickedTriangle();
 
+            CloudSystem.Draw();
+
+            ExtinctionGame.SetState_DepthWrite();
+            ExtinctionGame.SetState_NoCull();
             base.Draw();
 
         }

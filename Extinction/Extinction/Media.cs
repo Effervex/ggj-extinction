@@ -72,6 +72,11 @@ namespace Extinction
             ExtinctionGame.instance.GraphicsDevice.BlendState = BlendState.AlphaBlend;
         }
 
+        public static void SetState_AdditiveBlend()
+        {
+            ExtinctionGame.instance.GraphicsDevice.BlendState = BlendState.Additive;
+        }
+
         public static void SetState_NoCull()
         {
             RasterizerState stater = new RasterizerState();
@@ -291,8 +296,15 @@ namespace Extinction
                 return errorResult;
             }
         }
-         
-        public static void DrawModel(Model model, Matrix world) {
+
+        public static Effect GetShader(Model model)
+        {
+            Dictionary<string, object> data = (Dictionary<string, object>)model.Tag;
+            return data["shader"] as Effect;
+        }
+
+        public static void DrawModel(Model model, Matrix world)
+        {
 
             if (model != null)
             {
@@ -307,6 +319,26 @@ namespace Extinction
 
                 }
                 model.Draw(world, view, projection);
+            }
+        }
+
+        public static void DrawModel(Model model, List<Matrix> world)
+        {
+
+            if (model != null)
+            {
+                if (model.Tag != null)
+                {
+
+                    Dictionary<string, object> textures = (Dictionary<string, object>)model.Tag;
+
+                    if (null != textures["color"]) instance.GraphicsDevice.Textures[0] = (Texture)textures["color"];
+                    if (null != textures["mask"]) instance.GraphicsDevice.Textures[1] = (Texture)textures["mask"];
+                    if (null != textures["normal"]) instance.GraphicsDevice.Textures[2] = (Texture)textures["normal"];
+
+                }
+                foreach (Matrix m in world)
+                model.Draw(m, view, projection);
             }
         }
     }
