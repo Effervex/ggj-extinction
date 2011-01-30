@@ -33,7 +33,7 @@ namespace Extinction
             screenManager = new ScreenManager(this);
             this.Components.Add(screenManager);
             screenManager.AddScreen(new InGameScreen());
-      //      screenManager.AddScreen(new TitleScreen());
+            screenManager.AddScreen(new TitleScreen());
 
             InitGraphicsMode(1024, 768, false);
             Content.RootDirectory = "Content";
@@ -46,7 +46,14 @@ namespace Extinction
             SoundEffect sound;
             if (!sounds.TryGetValue(filename, out sound))
             {
-                sound = ExtinctionGame.instance.Content.Load<SoundEffect>(filename);
+                try
+                {
+                    sound = ExtinctionGame.instance.Content.Load<SoundEffect>(filename);
+                }
+                catch (Exception e)
+                {
+                    return;
+                }
                 if (sound == null) return;
 
                 sounds.Add(filename, sound);
