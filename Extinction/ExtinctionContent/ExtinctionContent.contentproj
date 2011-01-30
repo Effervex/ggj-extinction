@@ -166,6 +166,17 @@
       <Processor>EffectProcessor</Processor>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="particle\particle_magic_shader.fx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Name>particle_magic_shader</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+    </Compile>
+    <Compile Include="AmazonSmall.spritefont">
+      <Name>AmazonSmall</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+    </Compile>
     <None Include="shader_shared.fx">
       <Name>shader_shared</Name>
       <Importer>EffectImporter</Importer>
@@ -307,6 +318,14 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="particle\particle_magic_color.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Name>particle_magic_color</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
