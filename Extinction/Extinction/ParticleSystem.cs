@@ -28,10 +28,10 @@ namespace Extinction
             float r = ExtinctionGame.Random() * MathHelper.Pi * 2f;
             float rad = ExtinctionGame.Random() * 8f + 21f;
             p.p = world.Translation
-                + new Vector3(10f * 
-                    (ExtinctionGame.Random() - 0.5f)
-                    , 10f + ExtinctionGame.Random() * 5f,
-                    10f * (ExtinctionGame.Random() - 0.5f));
+                + new Vector3(10f *
+                    (ExtinctionGame.Random() - 0.79625f)
+                    , 12f + ExtinctionGame.Random() * 5f,
+                    10f * (ExtinctionGame.Random() - 0.79625f));
                 ;
             
             // +new Vector3(0f, (ExtinctionGame.Random() - 0.5f) * 30f, 0f) + Vector3.Transform(Vector3.Right * rad, Matrix.CreateRotationY(r));
@@ -47,8 +47,8 @@ namespace Extinction
         {
             //p.p += p.v;
             //float life = 1f;
-            p.v.X = (float)Math.Sin(1.2f * (p.t / p.life)) * 3f;
-            p.v.Z = (float)Math.Cos(1.2f * (p.t / p.life)) * 2f;
+            p.v.X = (float)Math.Sin(2.2f * (p.t / p.life)) * .85f;
+            p.v.Z = (float)Math.Cos(2.2f * (p.t / p.life)) * .96f;
             p.p += p.v * ExtinctionGame.GetTimeDelta();
             p.t += ExtinctionGame.GetTimeDelta() / p.life;
             p.aux.X = p.t / p.life;
@@ -59,7 +59,7 @@ namespace Extinction
         static void UpdateSceneMagicSystem(ParticleSystem s)
         {
             s.additve = true;
-            if (s.particles.Count < 20)
+            if (s.particles.Count < 70)
             {
                 s.spawnTime = 1f;
                 s.AddParticle(s.world.Translation, 1);
