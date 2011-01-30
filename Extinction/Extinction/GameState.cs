@@ -103,7 +103,7 @@ namespace Extinction
                 spawned.location.X = lane;
                 currentEnemies.Add(spawned);
             }
-            SPAWN_CHANCE *= 1.0001f;
+            SPAWN_CHANCE *= 1.0001f; //<==============================*************************************************************************************/
 
             // Update the active tools
             if (placedTools.Count > 0)

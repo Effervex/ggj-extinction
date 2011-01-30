@@ -23,6 +23,12 @@ namespace Extinction.Objects
             return (model != null);
         }
 
+        virtual public bool Create(String filename2)
+        {
+            filename = filename2;
+            return Create();
+        }
+
         virtual public void Draw()
         {
             if (model != null)

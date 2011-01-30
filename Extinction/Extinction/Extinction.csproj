@@ -114,18 +114,22 @@
     <Compile Include="Icons\ScrubIcon.cs" />
     <Compile Include="Input.cs" />
     <Compile Include="Objects\CombatEntity.cs" />
+    <Compile Include="Objects\Beetle.cs" />
     <Compile Include="Objects\Crystal.cs" />
     <Compile Include="Objects\Enemy.cs" />
     <Compile Include="Icons\CrystalIcon.cs" />
     <Compile Include="Media.cs" />
     <Compile Include="Objects\Dome.cs" />
+    <Compile Include="Objects\EnemyAnimation.cs" />
     <Compile Include="Objects\Entity.cs" />
     <Compile Include="Objects\Grass.cs" />
     <Compile Include="Objects\Honey.cs" />
     <Compile Include="Objects\IceCubes.cs" />
     <Compile Include="Objects\Island.cs" />
     <Compile Include="Objects\MagicalFruit.cs" />
-    <Compile Include="Objects\Possum.cs" />
+    <Compile Include="Objects\Possum.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Objects\Rock.cs" />
     <Compile Include="Objects\Scrub.cs" />
     <Compile Include="Picking.cs" />

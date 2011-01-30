@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
+using Extinction.Screens;
 
 namespace Extinction.Objects
 {
@@ -21,6 +22,7 @@ namespace Extinction.Objects
         public bool isAnimated = false;
         protected Effect animationRenderEffect;
         protected AlphaSubmarines.AnimationPlayer.AnimationMixer animationMixer;
+        protected String animationName;
 
         public CombatEntity(float health, float damage, float rateOfAttack, float speed)
         {
@@ -45,7 +47,9 @@ namespace Extinction.Objects
         {
             //Update the internal state of the animation mixer.
             if (animationMixer != null)
-            animationMixer.Update(gameTime.ElapsedGameTime.Ticks);
+            {
+                animationMixer.Update(gameTime.ElapsedGameTime.Ticks);
+            }
 
             // Reduce the attack delay
             if (attackDelay > 0)
@@ -99,12 +103,12 @@ namespace Extinction.Objects
             return model.Tag;
         }
 
-        public bool Create(Microsoft.Xna.Framework.Content.ContentManager contentManager)
+        public bool Create(String filename)
         {
-            base.Create();
+            base.Create(filename);
 
             // A simple effect that implements standard gpu animation.
-            animationRenderEffect = contentManager.Load<Effect>("animated-mesh");
+            animationRenderEffect = ExtinctionGame.instance.Content.Load<Effect>("animated-mesh");
 
             /*******
              * 
@@ -118,7 +122,7 @@ namespace Extinction.Objects
 
             //Createing a new mixer object, it has tracks that can play more then one animation at the same time on the same model.
             animationMixer = new AlphaSubmarines.AnimationPlayer.AnimationMixer(skiningData);
-
+            
             //Start the "walk" animation on track 0.
             int i = 0;
             String[] animNames = animationMixer.GetAllAnimationNames();
@@ -128,12 +132,14 @@ namespace Extinction.Objects
                 {
                     //Add a track to the mixer that will use matrices for internal node representation.
                     animationMixer.AddTrack(true, false);
-                    animationMixer[i].StartClip(animationMixer.GetAnimation(name));
-                    i++;
+                    animationMixer[0].StartClip(animationMixer.GetAnimation(name));
+                    animationName = name;
+                    break;
                 }
             }
+
             // Set defaults for all bone weights
-            animationMixer.BoneSetWeightForTrack("Default", 0, 0.5f);
+            animationMixer.BoneSetWeightForAllTrack(0, 0.5f);
 
             //Make the tracks loopable.
             animationMixer[0].IsLoopable = true;
@@ -148,12 +154,24 @@ namespace Extinction.Objects
         /**
          * Transitions to a different animation
          */
-        public void queueAnimation(String animationName, bool loop)
+        public virtual void queueAnimation(bool loop)
         {
+            if (animationName == null || animationName == "") return;
+
             // todo: blend animation
             animationMixer[0].StartClip(animationMixer.GetAnimation(animationName));
             animationMixer[0].IsLoopable = loop;
             animationMixer.IsPaused = false;
+        }
+
+        public virtual Vector2 getLocation()
+        {
+            return new Vector2(0,0);
+        }
+        public virtual Matrix getLocalTransformation()
+        {
+            Vector2 pos = InGameScreen.gameState.GetLocation(location.X, location.Y);
+            return Matrix.CreateTranslation(location.X, 10, location.Y);
         }
 
         public override void Draw()
@@ -163,12 +181,15 @@ namespace Extinction.Objects
             {
 
                 // Additional transformations
-                Vector3 pos = new Vector3(world.M41, world.M42, world.M43);
+                //Matrix worldOrient = Matrix.Multiply(world, transformation);
+                //Matrix transformation = Matrix.Multiply(getLocalTransformation(), getLocation());
+                Vector3 pos = new Vector3(getLocalTransformation().M41 + world.M41, getLocalTransformation().M42 + world.M42, getLocalTransformation().M43 + world.M43);
                 Quaternion rotation = Quaternion.CreateFromYawPitchRoll(MathHelper.ToRadians(0), 0, MathHelper.ToRadians(-180));
                 Matrix scale = Matrix.CreateScale(0.1f);
                 //Set the position and rotation of the model(the bone with the id 0 is allways the root bone).
                 animationMixer.SetAddedTransform(ref rotation, 0);
                 animationMixer.SetAddedTransform(ref pos, 0);
+                 
                 //Enable the extra transform to the root bone.
                 animationMixer.AddedTransformState(true, 0);
 

@@ -156,7 +156,7 @@ namespace AlphaSubmarines
             //You have to add this somewere(to the .Tag is a good place) so you can load it at runetime.
 
             #endregion
-
+            
             //Store the animation data.
             tagData.Add("SkinData", skinData);
 
@@ -234,6 +234,7 @@ namespace AlphaSubmarines
 
             // Convert animation data to our runtime format.
             Dictionary<string, AnimationClip> animationClips;
+            //System.Diagnostics.Debugger.Launch();
             animationClips = ProcessAnimations(skeleton.Animations, bones,bindPose);
 
             return new SkinningData(animationClips, inverseBindPose.ToArray(),bindPose.ToArray(), skeletonHierarchy.ToArray(), boneNames.ToArray());

@@ -20,7 +20,12 @@ namespace Extinction.Objects
 
         public override CombatEntity NewModel()
         {
-            return new Possum();
+            Possum enemy = new Possum();
+            enemy.Create(@"possum/possum");
+            enemy.isAnimated = true;
+            enemy.world = Matrix.CreateTranslation(new Vector3(2, 7, 2));
+            enemy.SetState(Enemy.EnemyState.RUNNING);
+            return enemy;
         }
     }
 }

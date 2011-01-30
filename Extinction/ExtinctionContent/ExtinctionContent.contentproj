@@ -115,21 +115,6 @@
       <Processor>EffectProcessor</Processor>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="possum\possum-modelonly.fbx">
-      <Name>possum-modelonly</Name>
-      <Importer>FbxImporter</Importer>
-      <Processor>ModelProcessor</Processor>
-    </Compile>
-    <Compile Include="possum\possum-modelonly_shader.fx">
-      <Name>possum-modelonly_shader</Name>
-      <Importer>EffectImporter</Importer>
-      <Processor>EffectProcessor</Processor>
-    </Compile>
-    <Compile Include="possum\possum.fbx">
-      <Name>possum</Name>
-      <Importer>FbxImporter</Importer>
-      <Processor>SkinnedModelPipeline</Processor>
-    </Compile>
     <Compile Include="possum\possum_shader.fx">
       <Name>possum_shader</Name>
       <Importer>EffectImporter</Importer>
@@ -177,6 +162,36 @@
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
     </Compile>
+    <Compile Include="beetle\beetle.fbx">
+      <Name>beetle</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>SkinnedModelPipeline</Processor>
+    </Compile>
+    <Compile Include="beetle\beetle_shader.fx">
+      <Name>beetle_shader</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+    </Compile>
+    <Compile Include="possum\possum.fbx">
+      <Name>possum</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>SkinnedModelPipeline</Processor>
+    </Compile>
+    <Compile Include="possum\possum_attacking.fbx">
+      <Name>possum_attacking</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>SkinnedModelPipeline</Processor>
+    </Compile>
+    <Compile Include="possum\possum_dying.fbx">
+      <Name>possum_dying</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>SkinnedModelPipeline</Processor>
+    </Compile>
+    <Compile Include="possum\possum_running.fbx">
+      <Name>possum_running</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>SkinnedModelPipeline</Processor>
+    </Compile>
     <None Include="shader_shared.fx">
       <Name>shader_shared</Name>
       <Importer>EffectImporter</Importer>
@@ -206,6 +221,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="beetle\beetle_color.png">
+      <Name>beetle_color</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Cursor.png">
       <Name>Cursor</Name>
       <Importer>TextureImporter</Importer>
@@ -228,11 +250,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="possum\possum-modelonly_color.png">
-      <Name>possum-modelonly_color</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
     <Compile Include="possum\possum_color.png">
       <Name>possum_color</Name>
       <Importer>TextureImporter</Importer>
@@ -335,7 +352,48 @@
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Compile Include="sound\honey 01.wav">
+      <Name>honey 01</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="sound\ice 01.wav">
+      <Name>ice 01</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="sound\possum 01.wav">
+      <Name>possum 01</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="sound\rock 01.wav">
+      <Name>rock 01</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="sound\shrub 01.wav">
+      <Name>shrub 01</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="sound\title screen 01.wav">
+      <Name>title screen 01</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="sound\walnut fall and crack 01.wav">
+      <Name>walnut fall and crack 01</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="sound\zap 01.wav">
+      <Name>zap 01</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+  </ItemGroup>
   <ItemGroup>
     <Compile Include="sound\ambient_01.wav">
       <Name>ambient_01</Name>
