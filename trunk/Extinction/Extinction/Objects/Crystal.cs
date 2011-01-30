@@ -6,14 +6,23 @@ using Microsoft.Xna.Framework;
 
 namespace Extinction.Objects
 {
+
     class Crystal : ToolEntity
     {
+        ParticleSystem magic;
+
         public Crystal () : base(150, 0.05f, 0, 0)
         {
             filename = @"crystal/crystals";
             modelTransformation = Matrix.CreateScale(0.25f);
             modelTransformation = Matrix.Multiply(modelTransformation, Matrix.CreateRotationX((float)(-Math.PI / 2)));
         }
+
+        public override bool Create()
+        {
+            return base.Create();
+        }
+
 
         public override bool Update(GameTime gameTime, List<Enemy> enemyPositions)
         {
@@ -37,6 +46,7 @@ namespace Extinction.Objects
                     laneUsed[diff + 1] = true;
                 }
             }
+
 
             return result;
         }

@@ -16,27 +16,34 @@ namespace Extinction.Objects
 
         public void Draw(List<Matrix> matrix)
         {
-            this.world = Matrix.CreateTranslation(4f,5f,4f);
+           // this.world = Matrix.CreateTranslation(4f,5f,4f);
 
             ExtinctionGame.SetState_AlphaBlend();
             ExtinctionGame.SetState_NoCull();
             ExtinctionGame.SetState_NoDepthWrite();
 
-            ModelDataSet textures = new ModelDataSet();
-            textures.color = (Texture)((Dictionary<string, object>)model.Tag)["color"];
-            textures.mask = (Texture)((Dictionary<string, object>)model.Tag)["mask"];
-            textures.normal = (Texture)((Dictionary<string, object>)model.Tag)["normal"];
-            textures.shader = (Effect)((Dictionary<string, object>)model.Tag)["shader"];
-            
-            textures.shader.Parameters["Time"].SetValue((float)ExtinctionGame.instance.getGameTime().TotalGameTime.TotalMilliseconds / 1000f);
-            foreach(Matrix m in matrix) {
-                //ExtinctionGame.DrawModel(model, m);
-                base.Draw();
+
+            ExtinctionGame.GetShader(model).Parameters["Time"].SetValue(ExtinctionGame.GetTimeTotal());
+            ExtinctionGame.GetShader(model).Parameters["AT"].SetValue(false);
+
+            foreach(Matrix m in matrix) { 
+                ExtinctionGame.DrawModel(model, m);
             }
 
             ExtinctionGame.SetState_Opaque();
-            ExtinctionGame.SetState_Cull();
             ExtinctionGame.SetState_DepthWrite();
+
+
+
+            ExtinctionGame.GetShader(model).Parameters["Time"].SetValue(ExtinctionGame.GetTimeTotal());
+            ExtinctionGame.GetShader(model).Parameters["AT"].SetValue(true);
+
+            foreach (Matrix m in matrix)
+            {
+                ExtinctionGame.DrawModel(model, m);
+            }
+
+            ExtinctionGame.SetState_Cull();
         }
     }
 }

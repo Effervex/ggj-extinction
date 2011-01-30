@@ -53,6 +53,7 @@ namespace Extinction.Screens
         GameState gameState;
 
 
+        List<Matrix> foliageList;
 
 
 
@@ -82,6 +83,7 @@ namespace Extinction.Screens
 
             gameState = new GameState(enemies);
 
+            foliageList = new List<Matrix>();
         }
         /// <summary>
         /// Constructor.
@@ -93,6 +95,49 @@ namespace Extinction.Screens
             Initialise();
         }
 
+        void BuildFoliageList()
+        {
+            if (foliageList == null) foliageList = new List<Matrix>();
+            else foliageList.Clear();
+
+            Vector3 center = new Vector3(-1f, 0f, -.5f);
+            for (int i = 0; i < 4000; i++)
+            {
+
+                Vector3 v = ExtinctionGame.RandomVector();
+                v.Normalize();
+                v.Y = 15f;
+
+
+
+                v *= (3 + 13.5f * ExtinctionGame.Random());
+                v += center;
+
+
+                Ray ray = new Ray(v, Vector3.Down);
+                bool o;
+                Vector3 vz;
+                float? d = Picking.RayIntersectsModel(ray, island.model, Matrix.Identity, out o, out vz, out vz, out vz);
+                if (d.HasValue)
+                {
+                    Vector3 pp = ray.Position + ray.Direction * d.Value;
+                    //pp.X = -pp.X;
+                    //pp.Z = -pp.Z;
+                    pp.Y -= .5f;
+                    float r = 7f;
+                    float scale = r / (r + Vector3.Distance(new Vector3(pp.X, 0f, pp.Z), Vector3.Zero));
+
+                    if (scale < 0.5f) continue;
+                    Matrix m =
+                        //Matrix.CreateScale(.5f + ExtinctionGame.Random()) * 
+                        Matrix.CreateScale(scale * (.5f + ExtinctionGame.Random())) * (Matrix.CreateRotationY(ExtinctionGame.Random() * (float)Math.PI * 2f) *
+                        Matrix.CreateTranslation(pp))
+                        ;// *Matrix.CreateRotationY(ExtinctionGame.Random() * (float)Math.PI * 2f);
+                    foliageList.Add(m);
+                }
+
+            }
+        }
         /// <summary>
         /// Load graphics content for the game.
         /// </summary>
@@ -101,10 +146,13 @@ namespace Extinction.Screens
             if (content == null)
                 content = new ContentManager(ScreenManager.Game.Services, "Content");
 
+
             tree.Create();
             dome.Create();
             island.Create();
             grass.Create();
+
+            BuildFoliageList();
 
             crystal.Create();
             scrub.Create();
@@ -143,56 +191,17 @@ namespace Extinction.Screens
         Vector2 spin_velocity = Vector2.Zero;
         Vector2 spin_info = Vector2.Zero;
         ParticleSystem test;
-
-        void CreateCloud(ref Particle p, Matrix world)
-        {
-            float r = ExtinctionGame.Random() * MathHelper.Pi * 2f;
-            float rad = ExtinctionGame.Random() * 13f + 12f;
-            p.p = world.Translation + Vector3.Transform(Vector3.Right * rad, Matrix.CreateRotationY(r));
-            p.v = ExtinctionGame.RandomVector() * 0.1f;
-
-        }
-
-        void UpdateCloud(ref Particle p, Matrix world)
-        {
-            //p.p += p.v;
-            p.t += ExtinctionGame.GetTimeDelta();
-            p.aux.Z = (float)(Math.Sin(p.t) * 0.5f + 0.5f);
-            if (p.t > 2f) p.alive = false;
-            //   p.Position += 
-        }
-
-        void UpdateClouds(ParticleSystem s)
-        {
-            if (s.particles.Count < 10)
-            {
-                s.spawnTime = 1f;
-                s.AddParticle(s.world.Translation, 1);
-                s.spawnTime = ExtinctionGame.Random() + 1f;
-                s.AddParticle(s.world.Translation, 1);
-                s.spawnTime = ExtinctionGame.Random() + 1f;
-                s.AddParticle(s.world.Translation, 1);
-                s.spawnTime = ExtinctionGame.Random() + 1f;
-                s.AddParticle(s.world.Translation, 1);
-                s.spawnTime = ExtinctionGame.Random() + 1f;
-            }
-            else
-            {
-                s.spawnTime -= ExtinctionGame.GetTimeDelta();
-            }
-        }
+         
 
         public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
         {
             ExtinctionGame.cursor.Update(gameTime);
 
-            if (test == null)
-            {
-                test = new ParticleSystem();
-                test.Create("cloud", UpdateCloud, CreateCloud, UpdateClouds);
-                test.AddParticle(Vector3.Zero, 1);
-            }
-            test.Update(gameTime);
+            if (ExtinctionGame.IsKeyPressed(Keys.H))
+                BuildFoliageList();
+       
+
+
 
             base.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
             if (ExtinctionGame.IsKeyPressed(Keys.Q))
@@ -344,7 +353,7 @@ namespace Extinction.Screens
             //  ScreenManager.GraphicsDevice.Textures[0]
             // TODO: Add your drawing code here
             dome.Draw();
-            test.Draw();
+            //test.Draw();
             island.Draw();
             possum.Draw();
             tree.Draw();
@@ -360,7 +369,7 @@ namespace Extinction.Screens
                 selectedTool.model.Draw();
             }
             //sphere.Draw(gameTime, hoveringPlacementPoint);
-            grass.Draw();
+            grass.Draw(foliageList);
 
             // SpriteBatch drawing
             int y = EDGE_ICON_BUFFER;
