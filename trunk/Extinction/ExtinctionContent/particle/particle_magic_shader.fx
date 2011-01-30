@@ -2,13 +2,15 @@
 			
 float4 PixelShaderFunction(float4 position : POSITION0, 
 	float3 aux : TEXCOORD1,
+	float3 col : TEXCOORD2,
 	float2 uv : TEXCOORD0) : COLOR0
 {
 	float alpha = aux.z;
-	float4 samp = tex2D(color, uv) * alpha;
-
+	float4 samp = tex2D(color, uv);// * alpha;
+	samp.rgb *= col;
 	//samp.w = aux.z;//(samp.w* saturate( alpha - 0.1));
-	samp.w=0;
+	//samp.w=0;
+	//samp = 1;
 	return samp;
  }
 
@@ -17,9 +19,20 @@ void VertexShaderFunction(float4 position : POSITION0,
 	 float2 texCoord : TEXCOORD0, 
 	out float4 opos : POSITION0,
 	out float2 otexCoord : TEXCOORD0,
-	out float3 oaux: TEXCOORD1) 
+	out float3 oaux: TEXCOORD1,
+	out float3 col : TEXCOORD2) 
 {
 	oaux = normal;
+
+	col = lerp( 
+		lerp (
+		float3(1,.6,0),
+		float3(.4,1,0), 
+		normal.x * 0.5),
+		float3(0,0,1),
+		saturate( normal.x - 0.5) * 0.5);
+
+
     float4 worldPosition = position;
 	
 	float2 coord = texCoord;
