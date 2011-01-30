@@ -35,8 +35,27 @@ namespace Extinction
             screenManager.AddScreen(new InGameScreen());
       //      screenManager.AddScreen(new TitleScreen());
 
-            InitGraphicsMode(800, 600, false);
+            InitGraphicsMode(1024, 768, false);
             Content.RootDirectory = "Content";
+        }
+
+        static Dictionary<string, SoundEffect> sounds = new Dictionary<string,SoundEffect>();
+        
+        public static void PlaySound(string filename, bool loop) {
+
+            SoundEffect sound;
+            if (!sounds.TryGetValue(filename, out sound))
+            {
+                sound = ExtinctionGame.instance.Content.Load<SoundEffect>(filename);
+                if (sound == null) return;
+
+                sounds.Add(filename, sound);
+            }
+
+            SoundEffectInstance instance = sound.CreateInstance();
+            
+            instance.Play();
+            instance.IsLooped = loop;
         }
 
         private bool InitGraphicsMode(int iWidth, int iHeight, bool bFullScreen)

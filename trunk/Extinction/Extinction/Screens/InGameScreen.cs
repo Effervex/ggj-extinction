@@ -143,9 +143,10 @@ namespace Extinction.Screens
         /// </summary>
         public override void LoadContent()
         {
+            ExtinctionGame.PlaySound(@"sound\ice", false);
             if (content == null)
                 content = new ContentManager(ScreenManager.Game.Services, "Content");
-
+            sceneMagic = ParticleSystem.GetParticles_SceneMagic();
 
             tree.Create();
             dome.Create();
@@ -196,7 +197,7 @@ namespace Extinction.Screens
         public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
         {
             ExtinctionGame.cursor.Update(gameTime);
-
+            sceneMagic.Update(gameTime);
             if (ExtinctionGame.IsKeyPressed(Keys.H))
                 BuildFoliageList();
        
@@ -262,6 +263,7 @@ namespace Extinction.Screens
 
         private void checkMouseClick()
         {
+            try{
             // Check for a hovering placement check
             if (selectedTool != null)
             {
@@ -333,18 +335,22 @@ namespace Extinction.Screens
                 selectedTool = null;
                 hoveringPointFound = false;
             }
+
+        }catch(Exception e) {}
         }
 
+        ParticleSystem sceneMagic;
         /// <summary>
         /// Draws the gameplay screen.
         /// </summary>
         public override void Draw(GameTime gameTime)
         {
+            
             // This game has a blue background. Why? Because!
             ScreenManager.GraphicsDevice.Clear(ClearOptions.Target,
                                                Color.CornflowerBlue, 0, 0);
 
-            cameraPosition = new Vector3(5, 8, 5) * (1.3f + spin_info.Y);
+            cameraPosition = new Vector3(6, 4.5f, 6) * (1.3f + spin_info.Y);
             cameraPosition = Vector3.Transform(cameraPosition, Matrix.CreateRotationY(spin_info.X));
 
             ExtinctionGame.view = Matrix.CreateLookAt(cameraPosition, Vector3.Zero + Vector3.Up * 5f, Vector3.Up);
@@ -355,10 +361,10 @@ namespace Extinction.Screens
             dome.Draw();
             //test.Draw();
             island.Draw();
-            possum.Draw();
+            //possum.Draw();
             tree.Draw();
-            grass.world = Matrix.CreateTranslation(4.5f, 4.5f, 4.5f);
-
+            //grass.world = Matrix.CreateTranslation(4.5f, 4.5f, 4.5f);
+            
             gameState.Draw(gameTime);
 
             // If we have a hovering model, draw that (with spinning and throbbing)
@@ -370,7 +376,7 @@ namespace Extinction.Screens
             }
             //sphere.Draw(gameTime, hoveringPlacementPoint);
             grass.Draw(foliageList);
-
+            sceneMagic.Draw();
             // SpriteBatch drawing
             int y = EDGE_ICON_BUFFER;
             ScreenManager.SpriteBatch.Begin();
