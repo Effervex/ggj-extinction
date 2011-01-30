@@ -171,7 +171,6 @@ namespace Extinction.Screens
         /// </summary>
         public override void LoadContent()
         {
-            ExtinctionGame.PlaySound(@"sound\ambient_01", false);
             if (content == null)
                 content = new ContentManager(ScreenManager.Game.Services, "Content");
             sceneMagic = ParticleSystem.GetParticles_SceneMagic();
