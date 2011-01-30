@@ -21,7 +21,7 @@ namespace ZuneGameState
             title = (Texture2D)ExtinctionGame.LoadTexture(@"title_screen");
             base.LoadContent();
 
-            ExtinctionGame.PlaySound(@"sound/title screen 01.wav", true);
+            ExtinctionGame.PlaySound(@"sound/titlescreen01.wav", true);
         }
         public override void Draw(GameTime gameTime)
         {

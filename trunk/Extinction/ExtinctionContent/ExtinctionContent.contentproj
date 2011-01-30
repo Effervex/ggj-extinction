@@ -378,8 +378,8 @@
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
     </Compile>
-    <Compile Include="sound\title screen 01.wav">
-      <Name>title screen 01</Name>
+    <Compile Include="sound\titlescreen01.wav">
+      <Name>titlescreen01</Name>
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
     </Compile>
