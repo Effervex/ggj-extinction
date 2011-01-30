@@ -23,15 +23,45 @@ namespace Extinction.Screens
 
         ContentManager content;
 
-        Vector3 cameraPosition;
+        public static void CreateSharedAssets()
+        {
+            if(dome==null)dome = new Dome();
+            if (island == null) island = new Island();
+            if (grass == null) { 
+                grass = new Grass(); 
+            }
 
-        Model modelIsland;
-        Model modelGrass;
+            if (tree == null) tree = new Tree();
+        }
 
-        Tree tree;
-        Dome dome;
-        Island island;
-        Grass grass;
+        public static void LoadSharedAssets()
+        {
+            if (dome != null) dome.Create();
+            if (island != null) island.Create();
+            if (grass != null)
+            {
+                grass.Create();
+
+                BuildFoliageList();
+
+            }
+            if (tree != null) tree.Create();
+        }
+
+        public static void DrawSharedAssets()
+        {
+            dome.Draw();
+            island.Draw();
+            tree.Draw();
+            grass.Draw();
+        }
+
+        public static Vector3 cameraPosition;
+
+        public static Tree tree;
+        public static Dome dome;
+        public static Island island;
+        public static Grass grass;
         Possum possum;
 
         Crystal crystal;
@@ -53,20 +83,18 @@ namespace Extinction.Screens
         GameState gameState;
 
 
-        List<Matrix> foliageList;
+        public static List<Matrix> foliageList;
 
 
 
 
         public void Initialise()
         {
+            CreateSharedAssets();
             List<Enemy> enemies = new List<Enemy>();
-            dome = new Dome();
-            island = new Island();
-            grass = new Grass();
+           
             possum = new Possum();
             enemies.Add(possum);
-            tree = new Tree();
 
             crystal = new Crystal();
             scrub = new Scrub();
@@ -95,7 +123,7 @@ namespace Extinction.Screens
             Initialise();
         }
 
-        void BuildFoliageList()
+        static void BuildFoliageList()
         {
             if (foliageList == null) foliageList = new List<Matrix>();
             else foliageList.Clear();
@@ -148,12 +176,9 @@ namespace Extinction.Screens
                 content = new ContentManager(ScreenManager.Game.Services, "Content");
             sceneMagic = ParticleSystem.GetParticles_SceneMagic();
 
-            tree.Create();
-            dome.Create();
-            island.Create();
-            grass.Create();
-
-            BuildFoliageList();
+            CreateSharedAssets();
+            LoadSharedAssets();
+            //BuildFoliageList();
 
             crystal.Create();
             scrub.Create();
@@ -205,11 +230,7 @@ namespace Extinction.Screens
 
 
             base.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
-            if (ExtinctionGame.IsKeyPressed(Keys.Q))
-                modelIsland = ExtinctionGame.LoadModel(@"island/island_mesh");
-            if (ExtinctionGame.IsKeyPressed(Keys.T))
-                ExtinctionGame.ReloadTextures();
-
+  
             foreach (ToolIcon tool in toolIcons)
             {
                 tool.Update(gameTime);
